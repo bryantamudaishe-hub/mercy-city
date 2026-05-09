@@ -371,18 +371,8 @@ async function handleLogin(event) {
             rememberMe: rememberMe
         };
 
-        // Check if 2FA is enabled
-        if (user.twoFactorEnabled) {
-            // Send 2FA code (mock)
-            await sendTwoFactorCode(user);
-
-            // Show 2FA form
-            showTwoFactorForm();
-            startCountdown();
-        } else {
-            // Direct login (no 2FA)
-            completeLogin(user, rememberMe);
-        }
+        // Show Quantum Security step (always required)
+        showQuantumSecurityForm();
 
     } catch (error) {
         showMessage(error.message, 'error');
@@ -424,7 +414,7 @@ async function handleTwoFactorVerification(event) {
             throw new Error('Invalid verification code. Please try again.');
         }
 
-        // Complete login
+        // Complete login and redirect to dashboard
         completeLogin(currentLoginAttempt.user, currentLoginAttempt.rememberMe);
 
     } catch (error) {
@@ -516,6 +506,22 @@ function completeLogin(user, rememberMe) {
 }
 
 // UI functions
+function showQuantumSecurityForm() {
+    document.getElementById('loginForm').style.display = 'none';
+    document.getElementById('registerForm').style.display = 'none';
+    document.getElementById('twoFactorForm').style.display = 'block';
+
+    // Update the header to show Quantum Security step
+    const header = document.querySelector('.two-factor-header h2');
+    if (header) {
+        header.textContent = 'Quantum Security Verification';
+    }
+
+    // Send 2FA code for quantum security
+    sendTwoFactorCode(currentLoginAttempt.user);
+    startCountdown();
+}
+
 function showTwoFactorForm() {
     document.getElementById('loginForm').style.display = 'none';
     document.getElementById('twoFactorForm').style.display = 'block';

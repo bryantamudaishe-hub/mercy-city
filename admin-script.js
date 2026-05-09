@@ -211,7 +211,6 @@ function getAdminSession() {
 document.addEventListener('DOMContentLoaded', function() {
     const sessionData = getAdminSession();
     if (!sessionData) {
-        alert('You must be signed in as a registered projects team member to access the admin dashboard.');
         return redirectToLogin();
     }
 
