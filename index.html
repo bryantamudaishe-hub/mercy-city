@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AFMIZ Mercy City Assembly - Empowering Lives</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Church Logo" class="logo-img">
+                <span>AFMIZ Mercy City</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#announcements" class="nav-link">Announcements</a></li>
+                <li><a href="#social" class="nav-link">Social Media</a></li>
+                <li><a href="#visit" class="nav-link">Visit</a></li>
+                <li><a href="#" class="nav-link admin-link" onclick="openAdminModal()">
+                    <i class="fas fa-user-shield"></i> Admin
+                </a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header/Hero Section -->
+    <header id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="logo-section">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Church Logo" class="hero-logo">
+            </div>
+            <h1 class="church-name">AFMIZ Mercy City Assembly</h1>
+            <p class="tagline">🔥 Spirit-filled | Word • Worship • Prayer</p>
+            <p class="year-theme"> 2026: A YEAR OF BEING ELEVATED FOR EXCELLENCE AND IMPACT </p>
+            <p class="subtitle">🙌 Empowering lives...</p>
+            <p class="location">📍 Mutare, Zimbabwe 🇿🇼</p>
+            <p class="church-leader">👨‍⌚ PASTOR K CHALEKA</p>
+            <p class="hashtag">#MercyCityAssembly</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary" onclick="openGivingModal()">💰 Give Now</button>
+                <button class="btn btn-secondary" onclick="openPledgeModal()">📜 Make a Pledge</button>
+                <button class="btn btn-outline" onclick="openMemberModal()">🙌 Join Our Community</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Church Introduction Section -->
+    <section id="introduction" class="introduction">
+        <div class="container">
+            <h2>Welcome to Our Church Family</h2>
+            <p class="intro-text">
+                AFM in Zim – Mercy City Assembly is a spirit-filled congregation committed to Word, Worship, and Prayer. 
+                We believe in empowering lives through the Gospel of Jesus Christ and serving our community with love, 
+                grace, and compassion.
+            </p>
+            <div class="intro-grid">
+                <div class="intro-card">
+                    <i class="fas fa-book"></i>
+                    <h3>The Word</h3>
+                    <p>Deep biblical teaching that transforms lives</p>
+                </div>
+                <div class="intro-card">
+                    <i class="fas fa-music"></i>
+                    <h3>Worship</h3>
+                    <p>Spirit-filled worship that connects us to God</p>
+                </div>
+                <div class="intro-card">
+                    <i class="fas fa-hands-praying"></i>
+                    <h3>Prayer</h3>
+                    <p>Powerful intercession for our nation and families</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Times Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <h2>Service Times</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-sun"></i>
+                    </div>
+                    <h3>Sunday Service</h3>
+                    <p class="service-time">9:00 AM - 12:00 PM</p>
+                    <p class="service-desc">Main worship service with inspiring messages</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-moon"></i>
+                    </div>
+                    <h3>Evening Prayer</h3>
+                    <p class="service-time">6:00 PM - 7:30 PM</p>
+                    <p class="service-desc">Intercessory prayer and fellowship</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <h3>Midweek Service</h3>
+                    <p class="service-time">Wednesday 7:00 PM</p>
+                    <p class="service-desc">Bible study and prayer meeting</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-child"></i>
+                    </div>
+                    <h3>Youth Service</h3>
+                    <p class="service-time">Sunday 2:00 PM</p>
+                    <p class="service-desc">Empowering the next generation</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Announcements Section -->
+    <section id="announcements" class="announcements">
+        <div class="container">
+            <h2>Latest Announcements</h2>
+            <div class="announcements-list">
+                <div class="announcement-item">
+                    <span class="announcement-date">Today</span>
+                    <h3>Preaching Note</h3>
+                    <p>Living in the power of the Holy Spirit through daily prayer.</p>
+                </div>
+                <div class="announcement-item">
+                    <span class="announcement-date">Sunday</span>
+                    <h3>Prayer Point</h3>
+                    <p>Pray for healing and restoration for families in our church.</p>
+                </div>
+                <div class="announcement-item">
+                    <span class="announcement-date">This Week</span>
+                    <h3>Sermon Focus</h3>
+                    <p>Walking in faith despite fear, and trusting God for breakthrough.</p>
+                </div>
+                <div class="announcement-item">
+                    <span class="announcement-date">Monthly</span>
+                    <h3>Prayer Session</h3>
+                    <p>Join our prayer gathering for spiritual renewal and community strength.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+\n\n\n\n    <!-- Social Media Integration Section -->
+    <section id="social" class="social-media-section">
+        <div class="container">
+            <h2>Connect With Us Online</h2>
+            <p>Follow us on social media for daily inspiration, announcements, and community updates</p>
+
+            <div class="social-feeds">
+                <div class="social-feed">
+                    <div class="feed-header">
+                        <i class="fab fa-facebook-f"></i>
+                        <h3>Facebook</h3>
+                    </div>
+                    <div class="feed-content">
+                        <div class="feed-post">
+                            <div class="post-header">
+                                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Church Logo" class="post-avatar">
+                                <div class="post-info">
+                                    <h4>AFMIZ Mercy City Assembly</h4>
+                                    <span class="post-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <p class="post-text">🙌 Join us this Sunday for an amazing time of worship and fellowship! Don't miss our special guest speaker sharing about God's grace and mercy. #MercyCityAssembly #AFMIZ</p>
+                            <div class="post-actions">
+                                <button class="action-btn">
+                                    <i class="fas fa-thumbs-up"></i> Like
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-comment"></i> Comment
+                                </button>
+                                <button class="action-btn">
+                                    <i class="fas fa-share"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://facebook.com/LIVE" class="feed-link" target="_blank">
+                        View More on Facebook <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <div class="social-feed">
+                    <div class="feed-header">
+                        <i class="fab fa-instagram"></i>
+                        <h3>Instagram</h3>
+                    </div>
+                    <div class="feed-content">
+                        <div class="instagram-grid">
+                            <div class="instagram-post">
+                                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Church Post" class="instagram-image">
+                                <div class="instagram-overlay">
+                                    <i class="fas fa-heart"></i>
+                                    <span>247</span>
+                                </div>
+                            </div>
+                            <div class="instagram-post">
+                                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Church Post" class="instagram-image">
+                                <div class="instagram-overlay">
+                                    <i class="fas fa-heart"></i>
+                                    <span>189</span>
+                                </div>
+                            </div>
+                            <div class="instagram-post">
+                                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Church Post" class="instagram-image">
+                                <div class="instagram-overlay">
+                                    <i class="fas fa-heart"></i>
+                                    <span>156</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://instagram.com/afmmercycity" class="feed-link" target="_blank">
+                        View More on Instagram <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+
+                <div class="social-feed">
+                    <div class="feed-header">
+                        <i class="fab fa-tiktok"></i>
+                        <h3>TikTok</h3>
+                    </div>
+                    <div class="feed-content">
+                        <div class="tiktok-video">
+                            <div class="video-placeholder">
+                                <i class="fab fa-tiktok"></i>
+                                <p>Latest Worship Session</p>
+                                <div class="video-stats">
+                                    <span><i class="fas fa-heart"></i> 1.2K</span>
+                                    <span><i class="fas fa-comment"></i> 89</span>
+                                    <span><i class="fas fa-share"></i> 45</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="https://tiktok.com/@afmmercycity" class="feed-link" target="_blank">
+                        View More on TikTok <i class="fas fa-external-link-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visitor Directions Section -->
+    <section id="visit" class="direction-section">
+        <div class="container direction-grid">
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h2>Plan Your Visit</h2>
+                    <p>Get directions, service times and visitor support for AFMIZ Mercy City Assembly.</p>
+                </div>
+                <div class="location-details">
+                    <div>
+                        <h3>Our Location</h3>
+                        <p>AFMIZ Mercy City Assembly<br>Mutare, Zimbabwe</p>
+                    </div>
+                    <div>
+                        <h3>Service Times</h3>
+                        <p>Sunday Worship: 9:00 AM<br>Wednesday Prayer: 7:00 PM</p>
+                    </div>
+                    <div>
+                        <h3>Contact</h3>
+                        <p>Phone: +263 77 123 4567<br>Email: info@afmizmercity.org</p>
+                    </div>
+                </div>
+                <div class="direction-map">
+                    <iframe src="https://www.google.com/maps?q=-18.9720479,32.6279877&hl=en&z=15&output=embed" frameborder="0" allowfullscreen loading="lazy"></iframe>
+                </div>
+            </div>
+            <div class="plan-visit-card">
+                <h3>Visitor Arrival Request</h3>
+                <p>Let us know when you are coming so we can prepare a warm welcome.</p>
+                <form id="visitForm" onsubmit="submitVisitRequest(event)">
+                    <div class="form-group">
+                        <label for="visitorName">Your Name</label>
+                        <input type="text" id="visitorName" name="visitorName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitorEmail">Email Address</label>
+                        <input type="email" id="visitorEmail" name="visitorEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitorPhone">Phone Number</label>
+                        <input type="tel" id="visitorPhone" name="visitorPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitDate">Preferred Visit Date</label>
+                        <input type="date" id="visitDate" name="visitDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="visitPeople">People Attending</label>
+                        <input type="number" id="visitPeople" name="visitPeople" min="1" value="1" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pledge Modal -->
+    <div id="pledgeModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePledgeModal()">&times;</span>
+            <h2>📜 Make a Pledge</h2>
+            <form id="pledgeForm" onsubmit="submitPledge(event)">
+                <div class="form-group">
+                    <label for="pledgeName">Full Name</label>
+                    <input type="text" id="pledgeName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="pledgeEmail">Email Address</label>
+                    <input type="email" id="pledgeEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="pledgePhone">Phone Number</label>
+                    <input type="tel" id="pledgePhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="pledgeType">Pledge Type</label>
+                    <select id="pledgeType" name="type" required>
+                        <option value="">Select a pledge type...</option>
+                        <option value="building">Building Fund</option>
+                        <option value="missions">Missions & Outreach</option>
+                        <option value="facility">Facility Upgrade</option>
+                        <option value="general">General Church Fund</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pledgeCurrency">Currency</label>
+                    <select id="pledgeCurrency" name="currency" required>
+                        <option value="">Select currency...</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="ZWG">ZWG</option>
+                        <option value="RANDS">South African Rands (R)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="pledgeAmount">Pledge Amount</label>
+                    <input type="number" id="pledgeAmount" name="amount" min="1" step="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="pledgeDueDate">Due Date (Optional)</label>
+                    <input type="date" id="pledgeDueDate" name="dueDate">
+                </div>
+                <div class="form-group">
+                    <label for="pledgeWhatsApp">WhatsApp Number (for reminders)</label>
+                    <input type="tel" id="pledgeWhatsApp" name="whatsapp" placeholder="+263 XX XXX XXXX" required>
+                    <small style="color: #666; font-size: 0.9em;">Required for pledge reminders and confirmations</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Pledge</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Giving Modal -->
+    <div id="givingModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeGivingModal()">&times;</span>
+            <h2>💰 Tithes & Offerings</h2>
+            <form id="givingForm" onsubmit="submitGiving(event)">
+                <div class="form-group">
+                    <label for="givingName">Full Name</label>
+                    <input type="text" id="givingName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="givingEmail">Email Address</label>
+                    <input type="email" id="givingEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="givingPhone">Phone Number</label>
+                    <input type="tel" id="givingPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="givingCurrency">Currency</label>
+                    <select id="givingCurrency" name="currency" required>
+                        <option value="">Select currency...</option>
+                        <option value="USD">USD ($)</option>
+                        <option value="ZWG">ZWG</option>
+                        <option value="RANDS">South African Rands (R)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="givingAmount">Amount</label>
+                    <input type="number" id="givingAmount" name="amount" min="1" step="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="givingCategory">Giving Type</label>
+                    <select id="givingCategory" name="category" required>
+                        <option value="">Select a giving type...</option>
+                        <option value="Tithe">Tithe</option>
+                        <option value="Offering">Offering</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="paymentMethod">Payment Method</label>
+                    <select id="paymentMethod" name="method" required>
+                        <option value="">Select payment method...</option>
+                        <option value="ecocash">EcoCash</option>
+                        <option value="bank">Bank Transfer</option>
+                    </select>
+                </div>
+                <div class="form-group" id="bankDetailsGroup" style="display: none;">
+                    <label for="bankDetails">Bank Details</label>
+                    <textarea id="bankDetails" name="bankDetails" rows="2" placeholder="Account number and branch name"></textarea>
+                </div>
+                <div class="form-group" id="ecocashGroup" style="display: none;">
+                    <label for="ecocashNumber">EcoCash Phone Number</label>
+                    <input type="tel" id="ecocashNumber" name="ecocash" placeholder="+263 XX XXX XXXX">
+                </div>
+                <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Member Registration Modal -->
+    <div id="memberModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeMemberModal()">&times;</span>
+            <h2>🙌 Join Our Community</h2>
+            <p>Become a member of AFMIZ Mercy City Assembly and stay connected with our spiritual family.</p>
+            <form id="memberForm" onsubmit="submitMemberRegistration(event)">
+                <div class="form-group">
+                    <label for="memberName">Full Name</label>
+                    <input type="text" id="memberName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberEmail">Email Address</label>
+                    <input type="email" id="memberEmail" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberPhone">Phone Number</label>
+                    <input type="tel" id="memberPhone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="memberAddress">Address (Optional)</label>
+                    <textarea id="memberAddress" name="address" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="memberInterests">Areas of Interest</label>
+                    <select id="memberInterests" name="interests">
+                        <option value="">Select your primary interest...</option>
+                        <option value="worship">Worship Team</option>
+                        <option value="youth">Youth Ministry</option>
+                        <option value="outreach">Community Outreach</option>
+                        <option value="prayer">Prayer Ministry</option>
+                        <option value="teaching">Bible Study/Teaching</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit Registration</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Daily Gospel Modal -->
+    <div id="dailyGospelModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDailyGospelModal()">&times;</span>
+            <h2>Daily Gospel Message</h2>
+            <div class="daily-gospel-content">
+                <h3 id="dailyGospelTitle"></h3>
+                <p class="daily-gospel-verse"><strong id="dailyGospelVerseRef"></strong></p>
+                <p class="daily-gospel-verse-text" id="dailyGospelVerseText"></p>
+                <p id="dailyGospelTeaching"></p>
+                <div>
+                    <h4>Prayer Points</h4>
+                    <ul id="dailyGospelPrayerPoints"></ul>
+                </div>
+            </div>
+            <div class="daily-gospel-actions">
+                <a href="https://www.bible.com/bible/111/JHN.1.NIV" target="_blank" rel="noopener" class="btn btn-secondary">Read John 1 NIV on Bible.com</a>
+                <button class="btn btn-secondary" onclick="closeDailyGospelModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Access Modal -->
+    <div id="adminModal" class="modal">
+        <div class="modal-content admin-modal">
+            <span class="close" onclick="closeAdminModal()">&times;</span>
+            <h2>Admin Access</h2>
+            <p>Register as a church leader or member to access the admin dashboard.</p>
+
+            <!-- Registration Form -->
+            <div id="adminRegistrationForm">
+                <h3>Register for Admin Access</h3>
+                <form onsubmit="handleAdminRegistration(event)">
+                    <div class="form-group">
+                        <label for="adminFullName">Full Name *</label>
+                        <input type="text" id="adminFullName" required placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminContact">Contact Number *</label>
+                        <input type="tel" id="adminContact" required placeholder="Enter your phone number">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminAddress">Address *</label>
+                        <input type="text" id="adminAddress" required placeholder="Enter your address">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminRole">Role at Church *</label>
+                        <select id="adminRole" required>
+                            <option value="">Select your role</option>
+                            <option value="pastor">Pastor</option>
+                            <option value="elder">Elder</option>
+                            <option value="deacon">Deacon</option>
+                            <option value="leader">Church Leader</option>
+                            <option value="projects_admin">Projects Administrator</option>
+                            <option value="financial_director">Financial Director</option>
+                            <option value="secretary">Secretary</option>
+                            <option value="media_team">Media Team</option>
+                            <option value="member">Church Member</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminEmail">Email Address *</label>
+                        <input type="email" id="adminEmail" required placeholder="Enter your email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminPassword">Password *</label>
+                        <input type="password" id="adminPassword" required minlength="8" placeholder="Create a password (min 8 characters)">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register & Send Verification Code</button>
+                </form>
+                <p class="form-footer">Already registered? <button onclick="showAdminLoginForm()" class="link-btn">Login here</button></p>
+            </div>
+
+            <!-- Verification Code Form -->
+            <div id="adminVerificationForm" style="display: none;">
+                <h3>Verify Your Email</h3>
+                <p>We've sent a verification code to <span id="verificationEmail"></span></p>
+                <form onsubmit="handleAdminVerification(event)">
+                    <div class="form-group">
+                        <label for="verificationCode">Verification Code *</label>
+                        <input type="text" id="verificationCode" required placeholder="Enter 6-digit code" maxlength="6">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Verify & Continue</button>
+                    <button type="button" onclick="resendVerificationCode()" class="btn btn-secondary">Resend Code</button>
+                </form>
+                <p class="form-footer"><button onclick="showAdminRegistrationForm()" class="link-btn">Back to Registration</button></p>
+            </div>
+
+            <!-- Login Form -->
+            <div id="adminLoginForm" style="display: none;">
+                <h3>Admin Login</h3>
+                <form onsubmit="handleAdminLogin(event)">
+                    <div class="form-group">
+                        <label for="adminLoginEmail">Email Address *</label>
+                        <input type="email" id="adminLoginEmail" required placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="adminLoginPassword">Password *</label>
+                        <input type="password" id="adminLoginPassword" required placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Login to Admin Dashboard</button>
+                </form>
+                <p class="form-footer">New user? <button onclick="showAdminRegistrationForm()" class="link-btn">Register here</button></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Message -->
+    <div id="successMessage" class="success-message">
+        <div class="success-content">
+            <i class="fas fa-check-circle"></i>
+            <h3 id="successTitle">Success!</h3>
+            <p id="successText"></p>
+            <button onclick="closeSuccessMessage()" class="btn btn-primary">Close</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <center><p>&copy; 2026 AFMIZ Mercy City Assembly. All rights reserved.</p></center>
+           <center><p>88 - 89 Aerodrome Road, Mutare, Zimbabwe 263</p></center>
+           <center> <p>🔥 Spirit-filled | Word • Worship • Prayer | 🙌 Empowering lives...</p></center>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Admin Access - AFMIZ Mercy City Assembly</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="login-styles.css">
+</head>
+<body>
+    <div class="background-grid"></div>
+    <div class="background-overlay"></div>
+
+    <div class="login-container">
+        <div class="login-card">
+            <div class="card-hero">
+                <div class="brand-badge">
+                    <span class="shield-icon"><i class="fas fa-shield-alt"></i></span>
+                    <div>
+                        <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                        <h1>Quantum Secure Gateway</h1>
+                    </div>
+                </div>
+                <p class="card-description">Enter your credentials to access the encrypted admin portal. Every session is verified with a dynamic security token.</p>
+            </div>
+
+            <form id="loginForm" class="auth-form" novalidate onsubmit="handleLogin(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="username">Email</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="username" name="username" placeholder="Enter your email">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-group">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-options">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="rememberMe">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <button type="button" class="text-link" onclick="showMessage('Password reset link sent to your email (mock functionality)', 'info')">Forgot Password?</button>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="btn-icon"><i class="fas fa-sign-in-alt"></i></span>
+                    <span>Secure Login</span>
+                </button>
+                <button type="button" class="btn-secondary" onclick="showRegisterForm()">
+                    <span class="btn-icon"><i class="fas fa-user-plus"></i></span>
+                    <span>Join Project Team</span>
+                </button>
+            </form>
+
+            <form id="registerForm" class="auth-form" novalidate style="display:none;" onsubmit="handleRegistration(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="registerFullName">Full Name</label>
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="registerFullName" name="fullName" placeholder="Full name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerIdNumber">ID Number</label>
+                        <div class="input-group">
+                            <i class="fas fa-id-card"></i>
+                            <input type="text" id="registerIdNumber" name="idNumber" placeholder="ID number">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="registerRole">Role at Church</label>
+                        <div class="input-group">
+                            <i class="fas fa-briefcase"></i>
+                            <select id="registerRole" name="role">
+                                <option value="">Select role</option>
+                                <option value="admin">Admin</option>
+                                <option value="financial_director">Financial Director</option>
+                                <option value="media_team">Media Team</option>
+                                <option value="secretary">Secretary</option>
+                                <option value="projects_admin">Projects Admin</option>
+                                <option value="member">Member</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPhone">Phone Number</label>
+                        <div class="input-group">
+                            <i class="fas fa-phone"></i>
+                            <input type="tel" id="registerPhone" name="phone" placeholder="Phone number">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="registerAddress">Address</label>
+                        <div class="input-group">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" id="registerAddress" name="address" placeholder="Address">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <div class="input-group">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="registerEmail" name="email" placeholder="Email address">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="registerPassword">Password</label>
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="registerPassword" name="password" placeholder="Create password">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="btn-icon"><i class="fas fa-user-plus"></i></span>
+                    <span>Register</span>
+                </button>
+                <button type="button" class="btn-text" onclick="showLoginForm()">
+                    <span class="btn-icon"><i class="fas fa-arrow-left"></i></span>
+                    <span>Back to Login</span>
+                </button>
+            </form>
+
+            <div id="twoFactorForm" class="two-factor-form" style="display:none;">
+                <button type="button" class="modal-close" onclick="backToLogin()" aria-label="Close secure panel">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="two-factor-header">
+                    <span class="shield-mark"><i class="fas fa-shield-alt"></i></span>
+                    <h2>Authorization Token Required</h2>
+                    <p class="panel-subtitle"><i class="fas fa-key"></i> Enter the 6-digit access token from your secure channel</p>
+                </div>
+
+                <div id="verificationEmailNotice" class="security-email-box">
+                    <span>Verification sent to</span>
+                    <strong id="verificationEmailText"></strong>
+                </div>
+
+                <form id="twoFactorVerificationForm" class="auth-form" novalidate onsubmit="handleTwoFactorVerification(event)">
+                    <div class="form-group otp-group-wrapper">
+                        <label>Enter verification code</label>
+                        <div class="otp-group" aria-label="Verification code">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" aria-label="Digit 1">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" aria-label="Digit 2">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" aria-label="Digit 3">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" aria-label="Digit 4">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" aria-label="Digit 5">
+                            <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" aria-label="Digit 6">
+                        </div>
+                        <div class="otp-helper">Enter the 6-digit code sent to your email.</div>
+                        <div id="otpError" class="field-error hidden"></div>
+                    </div>
+
+                    <div class="two-factor-options">
+                        <button type="button" class="btn-resend" onclick="resendCode()">
+                            <span><i class="fas fa-redo"></i></span>
+                            <span>Resend Code</span>
+                        </button>
+                        <span id="countdown" class="countdown"></span>
+                    </div>
+
+                    <button type="submit" class="btn-verify" disabled>
+                        <span class="btn-text">Verify Code</span>
+                        <span class="btn-loader hidden"></span>
+                    </button>
+                    <button type="button" class="btn-text" onclick="showLoginForm()">
+                        <span>Back to Login</span>
+                    </button>
+                </form>
+
+                <div class="encrypted-label"><i class="fas fa-lock"></i> Encrypted verification</div>
+            </div>
+
+            <div id="loginMessage" class="login-message hidden">
+                <div class="message-content">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="messageText"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="security-notice">
+            <i class="fas fa-lock"></i>
+            <div>
+                <h4>Secure Access</h4>
+                <p>This system is protected by advanced security measures. All access is logged and monitored.</p>
+            </div>
+        </div>
+
+        <div class="back-to-website">
+            <a href="index.html">
+                <i class="fas fa-arrow-left"></i>
+                Back to Church Website
+            </a>
+        </div>
+    </div>
+
+    <script src="login-script.js"></script>
+</body>
+</html>
