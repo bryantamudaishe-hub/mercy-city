@@ -497,48 +497,51 @@
 
             <!-- Registration Form -->
             <div id="adminRegistrationForm">
-                <h3>Register for Admin Access</h3>
+                <h3>Secure Admin Registration Request</h3>
+                <div class="admin-step">
+                    <strong>Step 1 of 2:</strong> Create your request. A verification code will be sent to your email before the request is saved as <em>Awaiting Admin Approval</em>.
+                </div>
+                <div class="admin-form-note">
+                    Only church positions are requested here. System-level roles are assigned later by Super Admin after approval.
+                </div>
                 <form onsubmit="handleAdminRegistration(event)">
                     <div class="form-group">
                         <label for="adminFullName">Full Name *</label>
                         <input type="text" id="adminFullName" required placeholder="Enter your full name">
+                        <small class="input-feedback" id="adminFullNameFeedback"></small>
                     </div>
                     <div class="form-group">
-                        <label for="adminContact">Contact Number *</label>
-                        <input type="tel" id="adminContact" required placeholder="Enter your phone number">
+                        <label for="adminPosition">Church Position *</label>
+                        <input type="text" id="adminPosition" required placeholder="Enter your church position">
+                        <small class="input-feedback" id="adminPositionFeedback"></small>
                     </div>
                     <div class="form-group">
-                        <label for="adminCountryCode">Country Code *</label>
-                        <select id="adminCountryCode" required>
-                            <option value="">Select your country code</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminAddress">Address *</label>
-                        <input type="text" id="adminAddress" required placeholder="Enter your address">
-                    </div>
-                    <div class="form-group">
-                        <label for="adminRole">Role at Church *</label>
-                        <select id="adminRole" required>
-                            <option value="">Select your role</option>
-                            <option value="pastor">Pastor</option>
-                            <option value="elder">Elder</option>
-                            <option value="deacon">Deacon</option>
-                            <option value="leader">Church Leader</option>
-                            <option value="projects_admin">Projects Administrator</option>
-                            <option value="financial_director">Financial Director</option>
-                            <option value="secretary">Secretary</option>
-                            <option value="media_team">Media Team</option>
-                            <option value="member">Church Member</option>
-                        </select>
+                        <label for="adminPhone">Phone Number *</label>
+                        <input type="tel" id="adminPhone" required placeholder="Enter your phone number">
+                        <small class="input-feedback" id="adminPhoneFeedback"></small>
                     </div>
                     <div class="form-group">
                         <label for="adminEmail">Email Address *</label>
                         <input type="email" id="adminEmail" required placeholder="Enter your email address">
+                        <small class="input-feedback" id="adminEmailFeedback"></small>
                     </div>
                     <div class="form-group">
                         <label for="adminPassword">Password *</label>
-                        <input type="password" id="adminPassword" required minlength="8" placeholder="Create a password (min 8 characters)">
+                        <input type="password" id="adminPassword" required placeholder="Create a strong password">
+                        <small class="input-feedback" id="adminPasswordFeedback"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="adminConfirmPassword">Confirm Password *</label>
+                        <input type="password" id="adminConfirmPassword" required placeholder="Re-enter password">
+                        <small class="input-feedback" id="adminConfirmPasswordFeedback"></small>
+                    </div>
+                    <div class="form-group checkbox-group">
+                        <input type="checkbox" id="adminTerms" required>
+                        <label for="adminTerms">I agree to the <strong>Terms and Conditions</strong> and understand that a Super Admin must approve my request before access is granted.</label>
+                        <small class="input-feedback" id="adminTermsFeedback"></small>
+                    </div>
+                    <div class="security-hint">
+                        Password must be at least 8 characters and include uppercase, lowercase, number, and symbol.
                     </div>
                     <button type="submit" class="btn btn-primary">Register & Send Verification Code</button>
                 </form>
@@ -597,6 +600,11 @@
            <center> <p>🔥 Spirit-filled | Word • Worship • Prayer | 🙌 Empowering lives...</p></center>
         </div>
     </footer>
+
+    <!-- Website Signature -->
+    <div class="signature">
+        <p>This website is done by briantamudaishe @2026 production developer</p>
+    </div>
 
     <script src="script.js"></script>
 </body>

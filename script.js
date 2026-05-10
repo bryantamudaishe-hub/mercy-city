@@ -333,7 +333,7 @@ function closeMemberModal() {
 function openAdminModal() {
     document.getElementById('adminModal').style.display = 'block';
     document.body.style.overflow = 'hidden';
-    showAdminRegistrationForm(); // Start with registration form
+    showAdminLoginForm(); // Start with login form
 }
 
 function closeAdminModal() {
@@ -361,55 +361,107 @@ function showAdminLoginForm() {
 }
 
 // Admin Registration Handler
+function setFieldError(elementId, message) {
+    const feedback = document.getElementById(`${elementId}Feedback`);
+    if (feedback) {
+        feedback.textContent = message;
+        feedback.classList.add('active');
+    }
+}
+
+function clearFieldErrors() {
+    document.querySelectorAll('.admin-modal .input-feedback').forEach(el => {
+        el.textContent = '';
+        el.classList.remove('active');
+    });
+}
+
+function validatePasswordStrength(password) {
+    const strongPassword = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+    return strongPassword.test(password);
+}
+
+function validatePhoneNumber(phone) {
+    const phoneRegex = /^\+?[0-9]{8,15}$/;
+    return phoneRegex.test(phone.replace(/\s+/g, ''));
+}
+
 function handleAdminRegistration(event) {
     event.preventDefault();
+    clearFieldErrors();
 
     const fullName = document.getElementById('adminFullName').value.trim();
-    const adminCode = document.getElementById('adminCountryCode').value;
-    const contactNumber = document.getElementById('adminContact').value.trim();
-    const contact = adminCode && contactNumber ? `${adminCode} ${contactNumber}` : contactNumber;
-    const address = document.getElementById('adminAddress').value.trim();
-    const role = document.getElementById('adminRole').value;
+    const position = document.getElementById('adminPosition').value.trim();
+    const phone = document.getElementById('adminPhone').value.trim();
     const email = document.getElementById('adminEmail').value.trim();
     const password = document.getElementById('adminPassword').value;
+    const confirmPassword = document.getElementById('adminConfirmPassword').value;
+    const termsAccepted = document.getElementById('adminTerms').checked;
 
-    if (!fullName || !adminCode || !contactNumber || !address || !role || !email || !password) {
-        showSuccessMessage('Error', 'Please fill in all required fields.');
+    let hasError = false;
+    if (!fullName) {
+        setFieldError('adminFullName', 'Full name is required.');
+        hasError = true;
+    }
+    if (!position) {
+        setFieldError('adminPosition', 'Church position is required.');
+        hasError = true;
+    }
+    if (!phone) {
+        setFieldError('adminPhone', 'Phone number is required.');
+        hasError = true;
+    } else if (!validatePhoneNumber(phone)) {
+        setFieldError('adminPhone', 'Enter a valid phone number with country code.');
+        hasError = true;
+    }
+    if (!email) {
+        setFieldError('adminEmail', 'Email address is required.');
+        hasError = true;
+    } else if (!validateEmail(email)) {
+        setFieldError('adminEmail', 'Enter a valid email address.');
+        hasError = true;
+    }
+    if (!password) {
+        setFieldError('adminPassword', 'Password is required.');
+        hasError = true;
+    } else if (!validatePasswordStrength(password)) {
+        setFieldError('adminPassword', 'Password must include uppercase, lowercase, number, and symbol.');
+        hasError = true;
+    }
+    if (!confirmPassword) {
+        setFieldError('adminConfirmPassword', 'Please confirm your password.');
+        hasError = true;
+    } else if (password !== confirmPassword) {
+        setFieldError('adminConfirmPassword', 'Passwords do not match.');
+        hasError = true;
+    }
+    if (!termsAccepted) {
+        setFieldError('adminTerms', 'You must agree to the terms and conditions.');
+        hasError = true;
+    }
+
+    if (hasError) {
+        showSuccessMessage('Validation Error', 'Please correct the highlighted fields to continue.');
         return;
     }
 
-    if (!validateEmail(email)) {
-        showSuccessMessage('Error', 'Please enter a valid email address.');
-        return;
-    }
-
-    if (password.length < 8) {
-        showSuccessMessage('Error', 'Password must be at least 8 characters long.');
-        return;
-    }
-
-    // Generate verification code
-    const verificationCode = email.toLowerCase() === 'bryantamudaishe@gmail.com' ? '554433' : Math.floor(100000 + Math.random() * 900000).toString();
-
-    // Store registration data temporarily
     const tempRegistration = {
         fullName,
-        contact,
-        address,
-        role,
+        position,
+        phone,
         email,
         password,
-        verificationCode,
-        timestamp: Date.now()
+        verificationCode: email.toLowerCase() === 'bryantamudaishe@gmail.com' ? '554433' : Math.floor(100000 + Math.random() * 900000).toString(),
+        timestamp: Date.now(),
+        status: 'Awaiting Admin Approval'
     };
 
     localStorage.setItem('tempAdminRegistration', JSON.stringify(tempRegistration));
 
-    // Simulate sending verification code (in real app, this would be an API call)
-    console.log(`Verification code for ${email}: ${verificationCode}`);
-    alert(`🔐 VERIFICATION CODE\n\nA code has been sent to ${email}.\n\nYour code is: ${verificationCode}`);
+    console.log(`Verification code for ${email}: ${tempRegistration.verificationCode}`);
+    alert(`🔐 VERIFICATION CODE\n\nA code has been sent to ${email}.\n\nYour code is: ${tempRegistration.verificationCode}`);
 
-    showSuccessMessage('Verification Code Sent', `A verification code has been sent to ${email}. Please check your email and enter the code below.`);
+    showSuccessMessage('Verification Code Sent', `A verification code has been sent to ${email}. Please enter it in the next step.`);
     showAdminVerificationForm(email);
 }
 
@@ -431,39 +483,57 @@ function handleAdminVerification(event) {
         return;
     }
 
-    // Code is valid, complete registration
+    const pendingRequests = JSON.parse(localStorage.getItem('pendingAdminApprovals')) || [];
     const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
 
-    // Check if email already exists
+    const existingPending = pendingRequests.find(user => user.email.toLowerCase() === tempRegistration.email.toLowerCase());
     const existingUser = registeredUsers.find(user => user.email.toLowerCase() === tempRegistration.email.toLowerCase());
+
     if (existingUser) {
-        showSuccessMessage('Error', 'This email is already registered. Please login instead.');
+        showSuccessMessage('Error', 'This email is already approved. Please login instead.');
         showAdminLoginForm();
         localStorage.removeItem('tempAdminRegistration');
         return;
     }
 
-    // Create new user
-    const newUser = {
+    if (existingPending) {
+        showSuccessMessage('Pending Request', 'You already have a pending approval request. Please wait for Super Admin approval.');
+        localStorage.removeItem('tempAdminRegistration');
+        showAdminLoginForm();
+        return;
+    }
+
+    const newRequest = {
         id: Date.now(),
-        username: tempRegistration.email.split('@')[0],
+        fullName: tempRegistration.fullName,
+        position: tempRegistration.position,
+        phone: tempRegistration.phone,
         email: tempRegistration.email,
         password: tempRegistration.password,
-        role: tempRegistration.role,
-        name: tempRegistration.fullName,
-        phone: tempRegistration.contact,
-        address: tempRegistration.address,
-        idNumber: '',
-        twoFactorEnabled: false,
-        isProjectTeam: true,
-        verified: true
+        status: 'Awaiting Admin Approval',
+        verifiedEmail: true,
+        assignedSystemRole: null,
+        requestDate: new Date().toISOString(),
+        notificationSent: true
     };
 
-    registeredUsers.push(newUser);
-    localStorage.setItem('registeredUsers', JSON.stringify(registeredUsers));
+    pendingRequests.push(newRequest);
+    localStorage.setItem('pendingAdminApprovals', JSON.stringify(pendingRequests));
+
+    const adminNotifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]');
+    adminNotifications.push({
+        id: newRequest.id,
+        type: 'registration_request',
+        title: 'New Admin Approval Request',
+        description: `${newRequest.fullName} requested access and is awaiting approval.`,
+        date: newRequest.requestDate,
+        status: 'unread'
+    });
+    localStorage.setItem('adminNotifications', JSON.stringify(adminNotifications));
+
     localStorage.removeItem('tempAdminRegistration');
 
-    showSuccessMessage('Registration Successful', 'Your account has been verified and created successfully. You can now login to access the admin dashboard.');
+    showSuccessMessage('Request Submitted', 'Your email is verified and your request is now awaiting Super Admin approval. You will be notified once access is granted.');
     showAdminLoginForm();
 }
 
@@ -477,7 +547,6 @@ function resendVerificationCode() {
         return;
     }
 
-    // Generate new verification code
     const newCode = tempRegistration.email.toLowerCase() === 'bryantamudaishe@gmail.com' ? '554433' : Math.floor(100000 + Math.random() * 900000).toString();
     tempRegistration.verificationCode = newCode;
     tempRegistration.timestamp = Date.now();
@@ -502,6 +571,14 @@ function handleAdminLogin(event) {
     }
 
     const registeredUsers = JSON.parse(localStorage.getItem('registeredUsers')) || [];
+    const pendingRequests = JSON.parse(localStorage.getItem('pendingAdminApprovals')) || [];
+
+    const pendingUser = pendingRequests.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (pendingUser && pendingUser.password === password) {
+        showSuccessMessage('Awaiting Approval', 'Your registration is complete and is awaiting Super Admin approval. Please wait until your account is activated.');
+        return;
+    }
+
     const user = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.password === password);
 
     if (!user) {
@@ -514,7 +591,6 @@ function handleAdminLogin(event) {
                 loginTime: new Date().toISOString(),
                 expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
             };
-
             localStorage.setItem('adminSession', JSON.stringify(sessionData));
             showSuccessMessage('Login Successful', 'Redirecting to admin dashboard...');
             setTimeout(() => {
@@ -522,25 +598,22 @@ function handleAdminLogin(event) {
             }, 1500);
             return;
         }
-
         showSuccessMessage('Error', 'Invalid email or password.');
         return;
     }
 
-    if (!user.verified && !(email.toLowerCase() === 'bryantamudaishe@gmail.com' && password === '2006abc##')) {
-        showSuccessMessage('Error', 'Your account is not verified. Please complete registration first.');
-        showAdminRegistrationForm();
+    if (!user.approved) {
+        showSuccessMessage('Awaiting Approval', 'Your account is awaiting Super Admin approval before login is allowed.');
         return;
     }
 
-    // Create admin session
     const sessionData = {
         userId: user.id,
         email: user.email,
         name: user.name,
         role: user.role,
         loginTime: new Date().toISOString(),
-        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString() // 24 hours
+        expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString()
     };
 
     localStorage.setItem('adminSession', JSON.stringify(sessionData));
@@ -614,7 +687,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    populateCountryCodeSelect('adminCountryCode');
     showDailyGospelPopup();
 });
 

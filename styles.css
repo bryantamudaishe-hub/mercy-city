@@ -698,9 +698,66 @@ body {
     margin-bottom: 0.5rem;
 }
 
-.admin-modal .btn-secondary {
+..admin-modal .btn-secondary {
     background: #6c757d;
     margin-top: 0.5rem;
+}
+
+.admin-step {
+    background: rgba(134, 200, 255, 0.15);
+    border-left: 4px solid var(--accent-color);
+    padding: 0.9rem 1rem;
+    margin-bottom: 1rem;
+    border-radius: 14px;
+    color: #1f2d3d;
+    font-size: 0.95rem;
+}
+
+.admin-form-note {
+    color: #475569;
+    margin-bottom: 1.5rem;
+    border-radius: 12px;
+    padding: 0.9rem 1rem;
+    background: #f8fafc;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+}
+
+.input-feedback {
+    display: block;
+    margin-top: 0.35rem;
+    font-size: 0.84rem;
+    color: #b91c1c;
+    min-height: 1rem;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.input-feedback.active {
+    opacity: 1;
+}
+
+.checkbox-group {
+    display: grid;
+    gap: 0.5rem;
+    align-items: start;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-top: 0.2rem;
+}
+
+.checkbox-group label {
+    margin-left: 0.3rem;
+    color: #1f2937;
+    line-height: 1.5;
+}
+
+.security-hint {
+    margin-bottom: 1rem;
+    color: #334155;
+    font-size: 0.95rem;
+    text-align: center;
 }
 
 /* Social Media Integration Section */
@@ -1315,6 +1372,17 @@ body {
     .hero-content {
         padding: 0 20px;
     }
+}
+
+/* Website Signature */
+.signature {
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.8);
+    margin-top: 2rem;
 }
 
 
