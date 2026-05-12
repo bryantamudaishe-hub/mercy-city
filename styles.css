@@ -72,6 +72,8 @@ body {
     width: 50px;
     border-radius: 50%;
     object-fit: cover;
+    animation: slowSpin 8s linear infinite, gentleFloat 3s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
 }
 
 .nav-menu {
@@ -144,6 +146,46 @@ body {
     }
 }
 
+/* Slow Spin Animation - 360 rotation in slow motion */
+@keyframes slowSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Gentle Float Animation - subtle up/down movement */
+@keyframes gentleFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Glow Animation - soft pulsing glow effect */
+@keyframes logoGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+    }
+}
+
+/* Hero Logo Glow - stronger pulsing glow */
+@keyframes heroLogoGlow {
+    0%, 100% {
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 45px rgba(212, 175, 55, 0.8);
+    }
+}
+
 .logo-section {
     margin-bottom: 2rem;
 }
@@ -155,6 +197,7 @@ body {
     object-fit: cover;
     box-shadow: 0 0 30px rgba(212, 175, 55, 0.5);
     border: 4px solid var(--secondary-color);
+    animation: slowSpin 10s linear infinite, gentleFloat 4s ease-in-out infinite, heroLogoGlow 3s ease-in-out infinite;
 }
 
 .church-name {
@@ -162,22 +205,29 @@ body {
     margin-bottom: 1rem;
     font-weight: 700;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    animation: gentleFloat 4s ease-in-out infinite;
 }
 
 .tagline {
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     color: var(--secondary-color);
+    animation: gentleFloat 4s ease-in-out infinite;
+    animation-delay: 0.2s;
 }
 
 .subtitle {
     font-size: 1.2rem;
     margin-bottom: 0.5rem;
+    animation: gentleFloat 4s ease-in-out infinite;
+    animation-delay: 0.4s;
 }
 
 .location {
     font-size: 1.1rem;
     margin-bottom: 0.5rem;
+    animation: gentleFloat 4s ease-in-out infinite;
+    animation-delay: 0.6s;
 }
 
 .year-theme {
@@ -187,7 +237,8 @@ body {
     color: var(--secondary-color);
     text-transform: uppercase;
     letter-spacing: 1px;
-    animation: pulse 2s ease-in-out infinite;
+    animation: gentleFloat 4s ease-in-out infinite, pulse 2s ease-in-out infinite;
+    animation-delay: 0.1s, 0s;
     text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.4);
 }
 
@@ -198,6 +249,8 @@ body {
     color: var(--secondary-color);
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    animation: gentleFloat 4s ease-in-out infinite;
+    animation-delay: 0.8s;
 }
 
 @keyframes pulse {
@@ -214,6 +267,8 @@ body {
     color: var(--secondary-color);
     margin-bottom: 2rem;
     font-weight: 600;
+    animation: gentleFloat 4s ease-in-out infinite;
+    animation-delay: 1s;
 }
 
 /* Buttons */

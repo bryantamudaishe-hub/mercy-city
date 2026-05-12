@@ -55,6 +55,8 @@
     width: 40px;
     border-radius: 70%;
     object-fit: cover;
+    animation: slowSpin 8s linear infinite, gentleFloat 3s ease-in-out infinite, logoGlow 3s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .admin-user-info {
@@ -1210,6 +1212,36 @@
     to {
         transform: translateY(0);
         opacity: 1;
+    }
+}
+
+/* Slow Spin Animation - 360 rotation in slow motion */
+@keyframes slowSpin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Gentle Float Animation - subtle up/down movement */
+@keyframes gentleFloat {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Glow Animation - soft pulsing glow effect */
+@keyframes logoGlow {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+        box-shadow: 0 0 18px rgba(212, 175, 55, 0.6);
     }
 }
 

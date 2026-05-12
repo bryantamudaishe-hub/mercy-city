@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
+    <!-- Navigation Bar -->JU\
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -21,9 +21,6 @@
                 <li><a href="#announcements" class="nav-link">Announcements</a></li>
                 <li><a href="#social" class="nav-link">Social Media</a></li>
                 <li><a href="#visit" class="nav-link">Visit</a></li>
-                <li><a href="#" class="nav-link admin-link" onclick="openAdminModal()">
-                    <i class="fas fa-user-shield"></i> Admin
-                </a></li>
             </ul>
             <div class="hamburger">
                 <span></span>
@@ -484,100 +481,6 @@
             <div class="daily-gospel-actions">
                 <a href="https://www.bible.com/bible/111/JHN.1.NIV" target="_blank" rel="noopener" class="btn btn-secondary">Read John 1 NIV on Bible.com</a>
                 <button class="btn btn-secondary" onclick="closeDailyGospelModal()">Close</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Admin Access Modal -->
-    <div id="adminModal" class="modal">
-        <div class="modal-content admin-modal">
-            <span class="close" onclick="closeAdminModal()">&times;</span>
-            <h2>Admin Access</h2>
-            <p>Register as a church leader or member to access the admin dashboard.</p>
-
-            <!-- Registration Form -->
-            <div id="adminRegistrationForm">
-                <h3>Secure Admin Registration Request</h3>
-                <div class="admin-step">
-                    <strong>Step 1 of 2:</strong> Create your request. A verification code will be sent to your email before the request is saved as <em>Awaiting Admin Approval</em>.
-                </div>
-                <div class="admin-form-note">
-                    Only church positions are requested here. System-level roles are assigned later by Super Admin after approval.
-                </div>
-                <form onsubmit="handleAdminRegistration(event)">
-                    <div class="form-group">
-                        <label for="adminFullName">Full Name *</label>
-                        <input type="text" id="adminFullName" required placeholder="Enter your full name">
-                        <small class="input-feedback" id="adminFullNameFeedback"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminPosition">Church Position *</label>
-                        <input type="text" id="adminPosition" required placeholder="Enter your church position">
-                        <small class="input-feedback" id="adminPositionFeedback"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminPhone">Phone Number *</label>
-                        <input type="tel" id="adminPhone" required placeholder="Enter your phone number">
-                        <small class="input-feedback" id="adminPhoneFeedback"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminEmail">Email Address *</label>
-                        <input type="email" id="adminEmail" required placeholder="Enter your email address">
-                        <small class="input-feedback" id="adminEmailFeedback"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminPassword">Password *</label>
-                        <input type="password" id="adminPassword" required placeholder="Create a strong password">
-                        <small class="input-feedback" id="adminPasswordFeedback"></small>
-                    </div>
-                    <div class="form-group">
-                        <label for="adminConfirmPassword">Confirm Password *</label>
-                        <input type="password" id="adminConfirmPassword" required placeholder="Re-enter password">
-                        <small class="input-feedback" id="adminConfirmPasswordFeedback"></small>
-                    </div>
-                    <div class="form-group checkbox-group">
-                        <input type="checkbox" id="adminTerms" required>
-                        <label for="adminTerms">I agree to the <strong>Terms and Conditions</strong> and understand that a Super Admin must approve my request before access is granted.</label>
-                        <small class="input-feedback" id="adminTermsFeedback"></small>
-                    </div>
-                    <div class="security-hint">
-                        Password must be at least 8 characters and include uppercase, lowercase, number, and symbol.
-                    </div>
-                    <button type="submit" class="btn btn-primary">Register & Send Verification Code</button>
-                </form>
-                <p class="form-footer">Already registered? <button onclick="showAdminLoginForm()" class="link-btn">Login here</button></p>
-            </div>
-
-            <!-- Verification Code Form -->
-            <div id="adminVerificationForm" style="display: none;">
-                <h3>Verify Your Email</h3>
-                <p>We've sent a verification code to <span id="verificationEmail"></span></p>
-                <form onsubmit="handleAdminVerification(event)">
-                    <div class="form-group">
-                        <label for="verificationCode">Verification Code *</label>
-                        <input type="text" id="verificationCode" required placeholder="Enter 6-digit code" maxlength="6">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Verify & Continue</button>
-                    <button type="button" onclick="resendVerificationCode()" class="btn btn-secondary">Resend Code</button>
-                </form>
-                <p class="form-footer"><button onclick="showAdminRegistrationForm()" class="link-btn">Back to Registration</button></p>
-            </div>
-
-            <!-- Login Form -->
-            <div id="adminLoginForm" style="display: none;">
-                <h3>Admin Login</h3>
-                <form onsubmit="handleAdminLogin(event)">
-                    <div class="form-group">
-                        <label for="adminLoginEmail">Email Address *</label>
-                        <input type="email" id="adminLoginEmail" required placeholder="Enter your email">
-                    </div>
-                    <div class="form-group">
-                        <label for="adminLoginPassword">Password *</label>
-                        <input type="password" id="adminLoginPassword" required placeholder="Enter your password">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Login to Admin Dashboard</button>
-                </form>
-                <p class="form-footer">New user? <button onclick="showAdminRegistrationForm()" class="link-btn">Register here</button></p>
             </div>
         </div>
     </div>
