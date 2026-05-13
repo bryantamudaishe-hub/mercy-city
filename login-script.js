@@ -102,16 +102,44 @@ function getAllUsers() {
 }
 
 function showRegisterForm() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('twoFactorForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'block';
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+
+    loginForm.classList.add('slide-out-left');
+    setTimeout(() => {
+        loginForm.style.display = 'none';
+        loginForm.classList.remove('slide-out-left');
+        registerForm.style.display = 'grid';
+        registerForm.classList.add('slide-in');
+    }, 500);
+
     hideMessage();
 }
 
 function showLoginForm() {
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('twoFactorForm').style.display = 'none';
-    document.getElementById('loginForm').style.display = 'block';
+    const registerForm = document.getElementById('registerForm');
+    const twoFactorForm = document.getElementById('twoFactorForm');
+    const loginForm = document.getElementById('loginForm');
+
+    // Hide whichever is visible
+    if (registerForm.style.display !== 'none') {
+        registerForm.classList.add('slide-out-right');
+        setTimeout(() => {
+            registerForm.style.display = 'none';
+            registerForm.classList.remove('slide-out-right');
+            loginForm.style.display = 'grid';
+            loginForm.classList.add('slide-in-right');
+        }, 500);
+    } else if (twoFactorForm.style.display !== 'none') {
+        twoFactorForm.classList.add('slide-out-right');
+        setTimeout(() => {
+            twoFactorForm.style.display = 'none';
+            twoFactorForm.classList.remove('slide-out-right');
+            loginForm.style.display = 'grid';
+            loginForm.classList.add('slide-in-right');
+        }, 500);
+    }
+
     hideMessage();
 }
 
@@ -507,9 +535,31 @@ function completeLogin(user, rememberMe) {
 
 // UI functions
 function showQuantumSecurityForm() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('registerForm').style.display = 'none';
-    document.getElementById('twoFactorForm').style.display = 'block';
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    const twoFactorForm = document.getElementById('twoFactorForm');
+
+    // Hide current form with slide out
+    if (loginForm.style.display !== 'none') {
+        loginForm.classList.add('slide-out-left');
+        setTimeout(() => {
+            loginForm.style.display = 'none';
+            loginForm.classList.remove('slide-out-left');
+            twoFactorForm.style.display = 'block';
+            twoFactorForm.classList.add('slide-in');
+        }, 500);
+    } else if (registerForm.style.display !== 'none') {
+        registerForm.classList.add('slide-out-left');
+        setTimeout(() => {
+            registerForm.style.display = 'none';
+            registerForm.classList.remove('slide-out-left');
+            twoFactorForm.style.display = 'block';
+            twoFactorForm.classList.add('slide-in');
+        }, 500);
+    } else {
+        twoFactorForm.style.display = 'block';
+        twoFactorForm.classList.add('slide-in');
+    }
 
     // Update the header to show Quantum Security step
     const header = document.querySelector('.two-factor-header h2');
@@ -523,8 +573,16 @@ function showQuantumSecurityForm() {
 }
 
 function showTwoFactorForm() {
-    document.getElementById('loginForm').style.display = 'none';
-    document.getElementById('twoFactorForm').style.display = 'block';
+    const loginForm = document.getElementById('loginForm');
+    const twoFactorForm = document.getElementById('twoFactorForm');
+
+    loginForm.classList.add('slide-out-left');
+    setTimeout(() => {
+        loginForm.style.display = 'none';
+        loginForm.classList.remove('slide-out-left');
+        twoFactorForm.style.display = 'block';
+        twoFactorForm.classList.add('slide-in');
+    }, 500);
 
     const otpInputs = document.querySelectorAll('.otp-input');
     otpInputs.forEach(input => input.value = '');
@@ -549,8 +607,16 @@ function acceptOnPhone() {
 }
 
 function backToLogin() {
-    document.getElementById('twoFactorForm').style.display = 'none';
-    document.getElementById('loginForm').style.display = 'block';
+    const twoFactorForm = document.getElementById('twoFactorForm');
+    const loginForm = document.getElementById('loginForm');
+
+    twoFactorForm.classList.add('slide-out-right');
+    setTimeout(() => {
+        twoFactorForm.style.display = 'none';
+        twoFactorForm.classList.remove('slide-out-right');
+        loginForm.style.display = 'grid';
+        loginForm.classList.add('slide-in-right');
+    }, 500);
 
     // Clear 2FA form
     document.querySelectorAll('.otp-input').forEach(input => input.value = '');
@@ -565,7 +631,7 @@ function backToLogin() {
     // Reset resend button
     const resendBtn = document.querySelector('.btn-resend');
     resendBtn.disabled = false;
-    resendBtn.textContent = 'Resend Code';
+    resendBtn.innerHTML = '<span><i class="fas fa-redo"></i></span><span>Resend Code</span>';
 }
 
 function startCountdown() {

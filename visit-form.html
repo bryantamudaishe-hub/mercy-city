@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Your Visit - AFMIZ Mercy City Assembly</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .visit-container {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+        .visit-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .visit-header h1 {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: var(--text);
+        }
+        .visit-header p {
+            color: var(--text-soft);
+            font-size: 1.1rem;
+        }
+        .form-group {
+            margin-bottom: 24px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(74, 121, 255, 0.1);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .service-type {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .service-type input[type="radio"] {
+            display: none;
+        }
+        .service-type label {
+            position: relative;
+            padding: 16px;
+            text-align: center;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 0;
+        }
+        .service-type input[type="radio"]:checked + label {
+            border-color: var(--accent);
+            background: rgba(245, 178, 59, 0.1);
+            color: var(--accent);
+            font-weight: 600;
+        }
+        .checkbox-group {
+            display: grid;
+            gap: 10px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 0;
+            font-weight: 400;
+        }
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            accent-color: var(--primary);
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(74, 121, 255, 0.3);
+        }
+        .message {
+            padding: 16px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            display: none;
+        }
+        .message.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .message.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .back-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="visit-container">
+        <div class="visit-header">
+            <h1><i class="fas fa-map-marker-alt" style="color: #f5b23b;"></i></h1>
+            <h1>Plan Your Visit</h1>
+            <p>We can't wait to welcome you to Mercy City Assembly</p>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <form id="visitForm">
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="fullName" name="fullName" required>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Phone Number *</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>How did you hear about us? *</label>
+                    <select id="source" name="source" required>
+                        <option value="">Select an option</option>
+                        <option value="Friend/Family">Friend or Family</option>
+                        <option value="Social Media">Social Media</option>
+                        <option value="Search Engine">Search Engine</option>
+                        <option value="Driving By">Driving By</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>First Time Visiting? *</label>
+                    <select id="firstTime" name="firstTime" required>
+                        <option value="">Select an option</option>
+                        <option value="Yes">Yes, this is my first time</option>
+                        <option value="No">No, I've been before</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Which service would you like to attend? *</label>
+                <div class="service-type">
+                    <div>
+                        <input type="radio" id="sunday" name="service" value="Sunday 9:00 AM" checked>
+                        <label for="sunday">Sunday 9:00 AM</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="wednesday" name="service" value="Wednesday 7:00 PM">
+                        <label for="wednesday">Wednesday 7:00 PM</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Number of People Visiting *</label>
+                <input type="number" id="groupSize" name="groupSize" min="1" value="1" required>
+            </div>
+
+            <div class="form-group">
+                <label>Are you interested in? (Select all that apply)</label>
+                <div class="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="interests" value="Worship">
+                        Worship Service
+                    </label>
+                    <label>
+                        <input type="checkbox" name="interests" value="Ministries">
+                        Learn about Ministries
+                    </label>
+                    <label>
+                        <input type="checkbox" name="interests" value="Community">
+                        Community Programs
+                    </label>
+                    <label>
+                        <input type="checkbox" name="interests" value="Prayer">
+                        Prayer Groups
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Special Needs or Notes (Optional)</label>
+                <textarea id="notes" name="notes" rows="4" placeholder="Let us know if you have any special needs or questions..."></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">
+                <i class="fas fa-check-circle"></i> Register Visit
+            </button>
+        </form>
+
+        <div class="back-link">
+            <a href="index.html#visit">← Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        const VISITS_KEY = 'churchVisits';
+
+        function loadVisits() {
+            const stored = localStorage.getItem(VISITS_KEY);
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function saveVisit(visit) {
+            const visits = loadVisits();
+            visits.push({
+                ...visit,
+                id: Date.now(),
+                submittedAt: new Date().toISOString()
+            });
+            localStorage.setItem(VISITS_KEY, JSON.stringify(visits));
+        }
+
+        function showMessage(text, type = 'success') {
+            const msgEl = document.getElementById('message');
+            msgEl.textContent = text;
+            msgEl.className = `message ${type}`;
+            msgEl.style.display = 'block';
+            
+            if (type === 'success') {
+                setTimeout(() => {
+                    window.location.href = 'index.html#visit';
+                }, 2000);
+            }
+        }
+
+        document.getElementById('visitForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const interests = Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(el => el.value);
+
+            const visit = {
+                fullName: document.getElementById('fullName').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                phone: document.getElementById('phone').value.trim(),
+                source: document.getElementById('source').value,
+                firstTime: document.getElementById('firstTime').value,
+                service: document.querySelector('input[name="service"]:checked').value,
+                groupSize: parseInt(document.getElementById('groupSize').value),
+                interests: interests,
+                notes: document.getElementById('notes').value.trim()
+            };
+
+            if (!visit.fullName || !visit.email || !visit.phone || !visit.source || !visit.firstTime) {
+                showMessage('Please fill in all required fields.', 'error');
+                return;
+            }
+
+            saveVisit(visit);
+            showMessage('Thank you for registering! We look forward to seeing you. Returning to home page...', 'success');
+        });
+    </script>
+</body>
+</html>

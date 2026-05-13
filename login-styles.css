@@ -112,6 +112,25 @@ body {
     margin: 0;
 }
 
+.security-features {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: var(--accent);
+}
+
+.security-features span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.security-features i {
+    font-size: 0.75rem;
+}
+
 .card-description {
     margin-top: 12px;
     color: var(--text-secondary);
@@ -579,6 +598,82 @@ body {
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutLeft {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Form Sliding */
+.auth-form,
+.two-factor-form {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    position: relative;
+}
+
+.auth-form.slide-in,
+.two-factor-form.slide-in {
+    animation: slideInLeft 0.5s ease forwards;
+}
+
+.auth-form.slide-in-right,
+.two-factor-form.slide-in-right {
+    animation: slideInRight 0.5s ease forwards;
+}
+
+.auth-form.slide-out-left,
+.two-factor-form.slide-out-left {
+    animation: slideOutLeft 0.5s ease forwards;
+}
+
+.auth-form.slide-out-right,
+.two-factor-form.slide-out-right {
+    animation: slideOutRight 0.5s ease forwards;
+}
+
+.auth-form.hidden,
+.two-factor-form.hidden {
+    display: none;
 }
 
 /* Loading Spinner */

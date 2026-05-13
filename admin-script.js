@@ -249,6 +249,8 @@ function initializeDashboard() {
     if (rolePermissions[currentUser.role].canViewOfferings) loadOfferingsTable();
     if (rolePermissions[currentUser.role].canViewTithes) loadTithesTable();
     if (rolePermissions[currentUser.role].canViewUsers) loadUsersTable();
+    loadDonationsTable();
+    loadVisitsTable();
     if (rolePermissions[currentUser.role].canEditAnnouncements || rolePermissions[currentUser.role].canPublishSermons || currentUser.role === 'admin') loadNotifications();
     updateStats();
     loadCharts();
@@ -438,6 +440,10 @@ function setupEventListeners() {
         { id: 'offering-search', handler: loadOfferingsTable },
         { id: 'tithes-filter', handler: loadTithesTable },
         { id: 'tithes-search', handler: loadTithesTable },
+        { id: 'donations-filter', handler: loadDonationsTable },
+        { id: 'donations-search', handler: loadDonationsTable },
+        { id: 'visits-filter', handler: loadVisitsTable },
+        { id: 'visits-search', handler: loadVisitsTable },
         { id: 'user-role-filter', handler: loadUsersTable },
         { id: 'user-search', handler: loadUsersTable }
     ];
@@ -1414,6 +1420,139 @@ function handlePledgesRegistration(event) {
         alert('All fields are required');
         return;
     }
+}
+
+// ===== DONATIONS MANAGEMENT =====
+function loadDonationsTable() {
+    const filter = document.getElementById('donations-filter').value;
+    const search = document.getElementById('donations-search').value.toLowerCase();
+
+    // Load donations from localStorage
+    const donationsKey = 'churchDonations';
+    const storedDonations = localStorage.getItem(donationsKey);
+    const donations = storedDonations ? JSON.parse(storedDonations) : [];
+
+    let filteredDonations = donations;
+
+    if (filter !== 'all') {
+        filteredDonations = filteredDonations.filter(donation => donation.donationType === filter);
+    }
+
+    if (search) {
+        filteredDonations = filteredDonations.filter(donation =>
+            donation.fullName.toLowerCase().includes(search) ||
+            donation.email.toLowerCase().includes(search)
+        );
+    }
+
+    const tbody = document.querySelector('#donations-table tbody');
+    tbody.innerHTML = '';
+
+    filteredDonations.forEach(donation => {
+        const row = document.createElement('tr');
+        const date = new Date(donation.submittedAt);
+        const interests = donation.message ? donation.message.substring(0, 30) + '...' : '-';
+        
+        row.innerHTML = `
+            <td>${donation.fullName}</td>
+            <td>${donation.email}</td>
+            <td>${donation.phone}</td>
+            <td><span class="badge">${donation.donationType}</span></td>
+            <td>${formatCurrency(donation.amount, 'ZWL')}</td>
+            <td>${donation.paymentMethod}</td>
+            <td>${formatDate(donation.submittedAt)}</td>
+            <td><small>${interests}</small></td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    if (donations.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #999;">No donations found</td></tr>';
+    }
+}
+
+// Add event listeners for donations filters
+document.addEventListener('DOMContentLoaded', function() {
+    const donationsFilter = document.getElementById('donations-filter');
+    const donationsSearch = document.getElementById('donations-search');
+    
+    if (donationsFilter) {
+        donationsFilter.addEventListener('change', loadDonationsTable);
+    }
+    if (donationsSearch) {
+        donationsSearch.addEventListener('keyup', loadDonationsTable);
+    }
+
+    const visitsFilter = document.getElementById('visits-filter');
+    const visitsSearch = document.getElementById('visits-search');
+    
+    if (visitsFilter) {
+        visitsFilter.addEventListener('change', loadVisitsTable);
+    }
+    if (visitsSearch) {
+        visitsSearch.addEventListener('keyup', loadVisitsTable);
+    }
+});
+
+// ===== VISITS MANAGEMENT =====
+function loadVisitsTable() {
+    const filter = document.getElementById('visits-filter').value;
+    const search = document.getElementById('visits-search').value.toLowerCase();
+
+    // Load visits from localStorage
+    const visitsKey = 'churchVisits';
+    const storedVisits = localStorage.getItem(visitsKey);
+    const visits = storedVisits ? JSON.parse(storedVisits) : [];
+
+    let filteredVisits = visits;
+
+    if (filter !== 'all') {
+        filteredVisits = filteredVisits.filter(visit => visit.service === filter);
+    }
+
+    if (search) {
+        filteredVisits = filteredVisits.filter(visit =>
+            visit.fullName.toLowerCase().includes(search) ||
+            visit.email.toLowerCase().includes(search)
+        );
+    }
+
+    const tbody = document.querySelector('#visits-table tbody');
+    tbody.innerHTML = '';
+
+    filteredVisits.forEach(visit => {
+        const row = document.createElement('tr');
+        const interests = visit.interests.length > 0 ? visit.interests.join(', ') : '-';
+        
+        row.innerHTML = `
+            <td>${visit.fullName}</td>
+            <td>${visit.email}</td>
+            <td>${visit.phone}</td>
+            <td>${visit.service}</td>
+            <td>${visit.groupSize}</td>
+            <td><span class="badge ${visit.firstTime === 'Yes' ? 'new' : ''}">${visit.firstTime}</span></td>
+            <td><small>${interests}</small></td>
+            <td>${formatDate(visit.submittedAt)}</td>
+        `;
+        tbody.appendChild(row);
+    });
+
+    if (visits.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 20px; color: #999;">No visit registrations found</td></tr>';
+    }
+}
+
+// Load donations and visits when their pages are opened
+const originalNavigateToModule = navigateToModule;
+navigateToModule = function(module) {
+    originalNavigateToModule(module);
+    
+    if (module === 'donations') {
+        setTimeout(loadDonationsTable, 100);
+    } else if (module === 'visits') {
+        setTimeout(loadVisitsTable, 100);
+    }
+};
 
     if (!validateEmail(email)) {
         alert('Please enter a valid email');

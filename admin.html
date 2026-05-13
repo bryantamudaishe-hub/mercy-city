@@ -36,6 +36,14 @@
                     <i class="fas fa-users"></i>
                     <span>Members</span>
                 </li>
+                <li class="nav-item" data-page="donations">
+                    <i class="fas fa-heart"></i>
+                    <span>Donations</span>
+                </li>
+                <li class="nav-item" data-page="visits">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Visit Registrations</span>
+                </li>
                 <li class="nav-item" data-page="pledges">
                     <i class="fas fa-hand-holding-heart"></i>
                     <span>Pledges</span>
@@ -553,6 +561,93 @@
                     </thead>
                     <tbody>
                         <!-- Tithes will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Donations Page -->
+        <div id="donations-page" class="page">
+            <div class="page-header">
+                <h1>Donations Management</h1>
+                <p>Track all donations, tithes, offerings, and missions support</p>
+            </div>
+
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label for="donations-filter">Filter by Type:</label>
+                    <select id="donations-filter">
+                        <option value="all">All Donations</option>
+                        <option value="Tithes">Tithes</option>
+                        <option value="Offering">Offerings</option>
+                        <option value="Missions">Missions</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="donations-search">Search:</label>
+                    <input type="text" id="donations-search" placeholder="Search by name or email...">
+                </div>
+            </div>
+
+            <div class="data-table">
+                <table id="donations-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Type</th>
+                            <th>Amount (ZWL)</th>
+                            <th>Payment Method</th>
+                            <th>Date</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Donations will be populated by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Visits Page -->
+        <div id="visits-page" class="page">
+            <div class="page-header">
+                <h1>Visit Registrations</h1>
+                <p>Manage visitor registrations and follow-ups</p>
+            </div>
+
+            <div class="filters-section">
+                <div class="filter-group">
+                    <label for="visits-filter">Filter by Service:</label>
+                    <select id="visits-filter">
+                        <option value="all">All Services</option>
+                        <option value="Sunday 9:00 AM">Sunday 9:00 AM</option>
+                        <option value="Wednesday 7:00 PM">Wednesday 7:00 PM</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="visits-search">Search:</label>
+                    <input type="text" id="visits-search" placeholder="Search by name or email...">
+                </div>
+            </div>
+
+            <div class="data-table">
+                <table id="visits-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Service</th>
+                            <th>Group Size</th>
+                            <th>First Time</th>
+                            <th>Interests</th>
+                            <th>Date Registered</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Visits will be populated by JavaScript -->
                     </tbody>
                 </table>
             </div>

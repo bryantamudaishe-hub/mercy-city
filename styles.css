@@ -276,6 +276,29 @@ button, .btn {
     margin-bottom: 1.4rem;
 }
 
+.hero-security-features {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 1.2rem auto;
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+}
+
+.hero-security-features span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: max-content;
+}
+
+.hero-security-features i {
+    font-size: 0.85rem;
+    color: #f5b23b;
+}
+
 .hero-title-lines {
     display: inline-grid;
     gap: 0.65rem;
