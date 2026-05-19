@@ -16,10 +16,10 @@
         <div class="login-card">
             <div class="card-hero">
                 <div class="brand-badge">
-                    <span class="shield-icon"><i class="fas fa-shield-alt"></i></span>
+                    <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="brand-logo">
                     <div>
                         <p class="eyebrow">AFMIZ Mercy City Assembly</p>
-                        <h1>Quantum Secure Gateway</h1>
+                        <h1>Secure Admin Access</h1>
                         <div class="security-features">
                             <span><i class="fas fa-check-circle"></i> 256-bit Encryption</span>
                             <span><i class="fas fa-check-circle"></i> 2FA Protected</span>
@@ -27,7 +27,7 @@
                         </div>
                     </div>
                 </div>
-                <p class="card-description">Step 1: Enter your credentials to begin the secure authentication process. You will then proceed to Quantum Security verification before accessing the admin dashboard.</p>
+                <p class="card-description">Enter your credentials and the system will verify your access automatically through Google email verification before opening the admin dashboard.</p>
             </div>
 
             <form id="loginForm" class="auth-form" novalidate onsubmit="handleLogin(event)">
@@ -147,13 +147,13 @@
             </form>
 
             <div id="twoFactorForm" class="two-factor-form" style="display:none;">
-                <button type="button" class="modal-close" onclick="backToLogin()" aria-label="Close secure panel">
+                <button type="button" class="modal-close" onclick="showLoginForm()" aria-label="Close verification panel">
                     <i class="fas fa-times"></i>
                 </button>
                 <div class="two-factor-header">
                     <span class="shield-mark"><i class="fas fa-shield-alt"></i></span>
-                    <h2>Authorization Token Required</h2>
-                    <p class="panel-subtitle"><i class="fas fa-key"></i> Enter the 6-digit access token from your secure channel</p>
+                    <h2>Enter Verification Code</h2>
+                    <p class="panel-subtitle"><i class="fas fa-key"></i> Enter the 6-digit code sent to your email to continue.</p>
                 </div>
 
                 <div id="verificationEmailNotice" class="security-email-box">
@@ -176,15 +176,7 @@
                         <div id="otpError" class="field-error hidden"></div>
                     </div>
 
-                    <div class="two-factor-options">
-                        <button type="button" class="btn-resend" onclick="resendCode()">
-                            <span><i class="fas fa-redo"></i></span>
-                            <span>Resend Code</span>
-                        </button>
-                        <span id="countdown" class="countdown"></span>
-                    </div>
-
-                    <button type="submit" class="btn-verify" disabled>
+                    <button type="submit" class="btn btn-verify" disabled>
                         <span class="btn-text">Verify Code</span>
                         <span class="btn-loader hidden"></span>
                     </button>

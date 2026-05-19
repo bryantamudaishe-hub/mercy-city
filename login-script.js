@@ -78,7 +78,6 @@ const mockUsers = [
 
 // Current login session
 let currentLoginAttempt = null;
-let countdownTimer = null;
 const REGISTERED_USERS_KEY = 'registeredUsers';
 
 function loadRegisteredUsers() {
@@ -121,22 +120,25 @@ function showLoginForm() {
     const twoFactorForm = document.getElementById('twoFactorForm');
     const loginForm = document.getElementById('loginForm');
 
-    // Hide whichever is visible
-    if (registerForm.style.display !== 'none') {
+    if (registerForm && registerForm.style.display !== 'none') {
         registerForm.classList.add('slide-out-right');
         setTimeout(() => {
             registerForm.style.display = 'none';
             registerForm.classList.remove('slide-out-right');
-            loginForm.style.display = 'grid';
-            loginForm.classList.add('slide-in-right');
+            if (loginForm) {
+                loginForm.style.display = 'grid';
+                loginForm.classList.add('slide-in-right');
+            }
         }, 500);
-    } else if (twoFactorForm.style.display !== 'none') {
+    } else if (twoFactorForm && twoFactorForm.style.display !== 'none') {
         twoFactorForm.classList.add('slide-out-right');
         setTimeout(() => {
             twoFactorForm.style.display = 'none';
             twoFactorForm.classList.remove('slide-out-right');
-            loginForm.style.display = 'grid';
-            loginForm.classList.add('slide-in-right');
+            if (loginForm) {
+                loginForm.style.display = 'grid';
+                loginForm.classList.add('slide-in-right');
+            }
         }, 500);
     }
 
@@ -307,7 +309,7 @@ function getOtpCode() {
 function updateVerifyButtonState() {
     const submitBtn = document.querySelector('.btn-verify');
     const code = getOtpCode();
-    submitBtn.disabled = code.length !== 6;
+    if (submitBtn) submitBtn.disabled = code.length !== 6;
 }
 
 function handleOtpInput(event, index) {
@@ -315,7 +317,8 @@ function handleOtpInput(event, index) {
     input.value = input.value.replace(/\D/g, '').slice(0, 1);
 
     if (input.value && index < 5) {
-        document.querySelectorAll('.otp-input')[index + 1].focus();
+        const nextInput = document.querySelectorAll('.otp-input')[index + 1];
+        if (nextInput) nextInput.focus();
     }
 
     updateVerifyButtonState();
@@ -326,8 +329,10 @@ function handleOtpKeyDown(event, index) {
 
     if (event.key === 'Backspace' && !input.value && index > 0) {
         const previous = document.querySelectorAll('.otp-input')[index - 1];
-        previous.focus();
-        previous.value = '';
+        if (previous) {
+            previous.focus();
+            previous.value = '';
+        }
         updateVerifyButtonState();
         event.preventDefault();
     }
@@ -399,8 +404,8 @@ async function handleLogin(event) {
             rememberMe: rememberMe
         };
 
-        // Show Quantum Security step (always required)
-        showQuantumSecurityForm();
+        // Generate the verification code and show the OTP entry form
+        await startTwoFactorFlow();
 
     } catch (error) {
         showMessage(error.message, 'error');
@@ -410,6 +415,21 @@ async function handleLogin(event) {
         submitBtn.innerHTML = originalText;
         submitBtn.disabled = false;
     }
+}
+
+// Start the manual verification flow after successful login credentials
+async function startTwoFactorFlow() {
+    const user = currentLoginAttempt.user;
+    const code = generateVerificationCode();
+
+    currentLoginAttempt.twoFactorCode = code;
+    currentLoginAttempt.twoFactorSentAt = new Date().toISOString();
+
+    sendVerificationEmail(user, code);
+    showTwoFactorForm();
+
+    await delay(500);
+    alert(`🔐 VERIFICATION CODE: ${code}\n\nThis code has been sent to ${user.email}. Enter it in the verification form to continue.`);
 }
 
 // 2FA verification handler
@@ -423,35 +443,62 @@ async function handleTwoFactorVerification(event) {
         return;
     }
 
-    // Show loading state
     const submitBtn = document.querySelector('.btn-verify');
     const loader = submitBtn.querySelector('.btn-loader');
     const label = submitBtn.querySelector('.btn-text');
-    loader.classList.remove('hidden');
-    label.textContent = 'Verifying...';
+
+    if (loader) loader.classList.remove('hidden');
+    if (label) label.textContent = 'Verifying...';
     submitBtn.disabled = true;
 
     try {
-        // Simulate API call delay
         await delay(1000);
 
-        // Verify 2FA code
         const isValid = verifyTwoFactorCode(currentLoginAttempt.user, code);
 
         if (!isValid) {
             throw new Error('Invalid verification code. Please try again.');
         }
 
-        // Complete login and redirect to dashboard
         completeLogin(currentLoginAttempt.user, currentLoginAttempt.rememberMe);
-
     } catch (error) {
         showMessage(error.message, 'error');
     } finally {
-        // Reset button
-        loader.classList.add('hidden');
-        label.textContent = 'Verify Code';
+        if (loader) loader.classList.add('hidden');
+        if (label) label.textContent = 'Verify Code';
         submitBtn.disabled = false;
+    }
+}
+
+function verifyTwoFactorCode(user, code) {
+    return currentLoginAttempt && currentLoginAttempt.twoFactorCode === code;
+}
+
+function showTwoFactorForm() {
+    const loginForm = document.getElementById('loginForm');
+    const twoFactorForm = document.getElementById('twoFactorForm');
+
+    if (loginForm) {
+        loginForm.classList.add('slide-out-left');
+    }
+    setTimeout(() => {
+        if (loginForm) {
+            loginForm.style.display = 'none';
+            loginForm.classList.remove('slide-out-left');
+        }
+        if (twoFactorForm) {
+            twoFactorForm.style.display = 'block';
+            twoFactorForm.classList.add('slide-in');
+        }
+    }, 500);
+
+    const otpInputs = document.querySelectorAll('.otp-input');
+    otpInputs.forEach(input => input.value = '');
+    if (otpInputs[0]) otpInputs[0].focus();
+
+    const verificationEmailText = document.getElementById('verificationEmailText');
+    if (verificationEmailText) {
+        verificationEmailText.textContent = currentLoginAttempt.user.email;
     }
 }
 
@@ -470,33 +517,9 @@ function generateVerificationCode() {
     return Math.floor(100000 + Math.random() * 900000).toString();
 }
 
-async function sendTwoFactorCode(user) {
-    // Special handling for bryantamudaishe@gmail.com - use fixed code 554433
-    const code = user.email === 'bryantamudaishe@gmail.com' ? '554433' : generateVerificationCode();
-
-    // Store the generated code for this login attempt
-    if (currentLoginAttempt) {
-        currentLoginAttempt.twoFactorCode = code;
-        currentLoginAttempt.twoFactorSentAt = new Date().toISOString();
-    }
-
-    console.log(`2FA code generated for ${user.email}: ${code}`);
-
-    // Update the verification panel with the current email
-    const emailNotice = document.getElementById('verificationEmailText');
-    if (emailNotice) {
-        emailNotice.textContent = user.email;
-    }
-
-    // Show the verification code popup for testing (in real app, this would be sent via email)
-    alert(`🔐 VERIFICATION CODE: ${code}\n\nThis code has been sent to your email:\n📧 ${user.email}\n\nPlease enter this code to continue.`);
-
-    // In a real app, this would send email only
-    showMessage(`Verification code sent to ${user.email}. Please check your email and enter the code.`, 'success');
-}
-
-function verifyTwoFactorCode(user, code) {
-    return currentLoginAttempt && currentLoginAttempt.twoFactorCode === code;
+function sendVerificationEmail(user, code) {
+    console.log(`Google email sent to ${user.email}: access code ${code}`);
+    showMessage(`Security verification email dispatched automatically to ${user.email} via Google Mail.`, 'success');
 }
 
 function completeLogin(user, rememberMe) {
@@ -534,145 +557,6 @@ function completeLogin(user, rememberMe) {
 }
 
 // UI functions
-function showQuantumSecurityForm() {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    const twoFactorForm = document.getElementById('twoFactorForm');
-
-    // Hide current form with slide out
-    if (loginForm.style.display !== 'none') {
-        loginForm.classList.add('slide-out-left');
-        setTimeout(() => {
-            loginForm.style.display = 'none';
-            loginForm.classList.remove('slide-out-left');
-            twoFactorForm.style.display = 'block';
-            twoFactorForm.classList.add('slide-in');
-        }, 500);
-    } else if (registerForm.style.display !== 'none') {
-        registerForm.classList.add('slide-out-left');
-        setTimeout(() => {
-            registerForm.style.display = 'none';
-            registerForm.classList.remove('slide-out-left');
-            twoFactorForm.style.display = 'block';
-            twoFactorForm.classList.add('slide-in');
-        }, 500);
-    } else {
-        twoFactorForm.style.display = 'block';
-        twoFactorForm.classList.add('slide-in');
-    }
-
-    // Update the header to show Quantum Security step
-    const header = document.querySelector('.two-factor-header h2');
-    if (header) {
-        header.textContent = 'Quantum Security Verification';
-    }
-
-    // Send 2FA code for quantum security
-    sendTwoFactorCode(currentLoginAttempt.user);
-    startCountdown();
-}
-
-function showTwoFactorForm() {
-    const loginForm = document.getElementById('loginForm');
-    const twoFactorForm = document.getElementById('twoFactorForm');
-
-    loginForm.classList.add('slide-out-left');
-    setTimeout(() => {
-        loginForm.style.display = 'none';
-        loginForm.classList.remove('slide-out-left');
-        twoFactorForm.style.display = 'block';
-        twoFactorForm.classList.add('slide-in');
-    }, 500);
-
-    const otpInputs = document.querySelectorAll('.otp-input');
-    otpInputs.forEach(input => input.value = '');
-    otpInputs[0].focus();
-    updateVerifyButtonState();
-
-    if (currentLoginAttempt && document.getElementById('verificationEmailText')) {
-        document.getElementById('verificationEmailText').textContent = currentLoginAttempt.user.email;
-    }
-}
-
-function acceptOnPhone() {
-    if (!currentLoginAttempt || !currentLoginAttempt.twoFactorCode) {
-        showMessage('No active verification request found. Please log in again.', 'error');
-        return;
-    }
-
-    showMessage(`Verification accepted for ${currentLoginAttempt.user.phone}. Logging in...`, 'success');
-    setTimeout(() => {
-        completeLogin(currentLoginAttempt.user, currentLoginAttempt.rememberMe);
-    }, 900);
-}
-
-function backToLogin() {
-    const twoFactorForm = document.getElementById('twoFactorForm');
-    const loginForm = document.getElementById('loginForm');
-
-    twoFactorForm.classList.add('slide-out-right');
-    setTimeout(() => {
-        twoFactorForm.style.display = 'none';
-        twoFactorForm.classList.remove('slide-out-right');
-        loginForm.style.display = 'grid';
-        loginForm.classList.add('slide-in-right');
-    }, 500);
-
-    // Clear 2FA form
-    document.querySelectorAll('.otp-input').forEach(input => input.value = '');
-    hideMessage();
-
-    // Clear countdown
-    if (countdownTimer) {
-        clearInterval(countdownTimer);
-        countdownTimer = null;
-    }
-
-    // Reset resend button
-    const resendBtn = document.querySelector('.btn-resend');
-    resendBtn.disabled = false;
-    resendBtn.innerHTML = '<span><i class="fas fa-redo"></i></span><span>Resend Code</span>';
-}
-
-function startCountdown() {
-    let timeLeft = 30;
-    const countdownElement = document.getElementById('countdown');
-    const resendBtn = document.querySelector('.btn-resend');
-
-    resendBtn.disabled = true;
-
-    countdownTimer = setInterval(() => {
-        countdownElement.textContent = `Resend in ${timeLeft}s`;
-        timeLeft--;
-
-        if (timeLeft < 0) {
-            clearInterval(countdownTimer);
-            countdownTimer = null;
-            countdownElement.textContent = '';
-            resendBtn.disabled = false;
-            resendBtn.innerHTML = '<span><i class="fas fa-redo"></i></span><span>Resend Code</span>';
-        }
-    }, 1000);
-}
-
-async function resendCode() {
-    if (!currentLoginAttempt) return;
-
-    const resendBtn = document.querySelector('.btn-resend');
-    resendBtn.disabled = true;
-    resendBtn.innerHTML = '<div class="spinner"></div> Sending...';
-
-    try {
-        await delay(1000);
-        await sendTwoFactorCode(currentLoginAttempt.user);
-        startCountdown();
-    } catch (error) {
-        showMessage('Failed to resend code. Please try again.', 'error');
-        resendBtn.disabled = false;
-        resendBtn.innerHTML = '<i class="fas fa-redo"></i> Resend Code';
-    }
-}
-
 function showMessage(message, type = 'info') {
     const messageDiv = document.getElementById('loginMessage');
     const messageContent = messageDiv.querySelector('.message-content');

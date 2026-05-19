@@ -9,6 +9,17 @@
     <link rel="stylesheet" href="admin-styles.css">
 </head>
 <body>
+    <div id="adminAccessOverlay" class="admin-access-overlay" style="display:none;">
+        <div class="admin-access-card">
+            <h2>Admin Access Required</h2>
+            <p>Welcome to the Mercy City Assembly administration portal. Please sign in first to access the dashboard.</p>
+            <div class="admin-access-actions">
+                <button type="button" class="btn btn-primary" onclick="window.location.href='login.html'">Go to Secure Login</button>
+                <button type="button" class="btn btn-secondary" onclick="window.location.href='index.html'">Back to Church Website</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Admin Header -->
     <header class="admin-header">
         <div class="admin-header-content">
@@ -135,6 +146,7 @@
                     <div class="stat-content">
                         <h3 id="total-pledges">ZWL 0</h3>
                         <div class="currency-breakdown">
+                            <span class="currency-label">Currency</span>
                             <span id="pledges-usd">USD 0</span>
                             <span id="pledges-zwg">ZWG 0</span>
                             <span id="pledges-rands">R 0</span>
@@ -151,6 +163,7 @@
                     <div class="stat-content">
                         <h3 id="total-offerings">ZWL 0</h3>
                         <div class="currency-breakdown">
+                            <span class="currency-label">Currency</span>
                             <span id="offerings-usd">USD 0</span>
                             <span id="offerings-zwg">ZWG 0</span>
                             <span id="offerings-rands">R 0</span>
@@ -167,6 +180,7 @@
                     <div class="stat-content">
                         <h3 id="total-tithes">ZWL 0</h3>
                         <div class="currency-breakdown">
+                            <span class="currency-label">Currency</span>
                             <span id="tithes-usd">USD 0</span>
                             <span id="tithes-zwg">ZWG 0</span>
                             <span id="tithes-rands">R 0</span>
@@ -438,11 +452,74 @@
                 </div>
             </div>
 
+            <div class="pledge-form-section">
+                <div class="analysis-header">
+                    <h3>Add New Pledge</h3>
+                    <p>Record a pledge and auto-generate a due date for follow-up.</p>
+                </div>
+                <form id="addPledgeForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pledgeName">Name</label>
+                            <input type="text" id="pledgeName" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="pledgeEmail">Email</label>
+                            <input type="email" id="pledgeEmail" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pledgeCountryCode">Country Code</label>
+                            <select id="pledgeCountryCode" required>
+                                <option value="+263">+263 Zimbabwe</option>
+                                <option value="+27">+27 South Africa</option>
+                                <option value="+254">+254 Kenya</option>
+                                <option value="+255">+255 Tanzania</option>
+                                <option value="+256">+256 Uganda</option>
+                                <option value="+234">+234 Nigeria</option>
+                                <option value="+44">+44 UK</option>
+                                <option value="+1">+1 USA/Canada</option>
+                                <option value="+61">+61 Australia</option>
+                                <option value="+91">+91 India</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pledgePhone">WhatsApp Phone</label>
+                            <input type="tel" id="pledgePhone" placeholder="771234567" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="pledgeType">Pledge Item</label>
+                            <select id="pledgeType" required>
+                                <option value="Rufaro">Rufaro</option>
+                                <option value="Church Building">Church Building</option>
+                                <option value="Revivals">Revivals</option>
+                                <option value="Missions">Missions</option>
+                                <option value="Building Fund">Building Fund</option>
+                                <option value="Facility Upgrade">Facility Upgrade</option>
+                                <option value="General Fund">General Fund</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="pledgeAmount">Amount (ZWL)</label>
+                            <input type="number" id="pledgeAmount" min="0" placeholder="50000" required>
+                        </div>
+                    </div>
+                    <p class="form-note">WhatsApp reminders use the number and country code above. Please ensure the number is valid for your contact.</p>
+                    <button type="submit" class="btn btn-primary">Add New Pledge</button>
+                </form>
+            </div>
+
             <div class="filters-section">
                 <div class="filter-group">
                     <label for="pledge-filter">Filter by Type:</label>
                     <select id="pledge-filter">
                         <option value="all">All Pledges</option>
+                        <option value="rufaro">Rufaro</option>
+                        <option value="church-building">Church Building</option>
+                        <option value="revivals">Revivals</option>
                         <option value="building">Building Fund</option>
                         <option value="missions">Missions</option>
                         <option value="facility">Facility Upgrade</option>
@@ -451,7 +528,7 @@
                 </div>
                 <div class="filter-group">
                     <label for="pledge-search">Search:</label>
-                    <input type="text" id="pledge-search" placeholder="Search by name or email...">
+                    <input type="text" id="pledge-search" placeholder="Search by name, email, phone or type...">
                 </div>
             </div>
 
@@ -467,6 +544,7 @@
                             <th>Amount (ZWL)</th>
                             <th>USD / ZWG / ZAR</th>
                             <th>Date</th>
+                            <th>Due Date</th>
                             <th>Mark as Pledged</th>
                             <th>Actions</th>
                         </tr>
@@ -983,6 +1061,13 @@
     <div id="pledgesAccessModal" class="modal">
         <div class="modal-content">
             <span class="close close-modal">&times;</span>
+            <div class="modal-brand">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="modal-brand-logo">
+                <div>
+                    <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                    <h3>Secure Module Access</h3>
+                </div>
+            </div>
             <h2>Access Pledges Module</h2>
             <p>Please login to access pledges management.</p>
             <div id="pledgesLoginForm">
@@ -1005,6 +1090,13 @@
     <div id="offeringsAccessModal" class="modal">
         <div class="modal-content">
             <span class="close close-modal">&times;</span>
+            <div class="modal-brand">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="modal-brand-logo">
+                <div>
+                    <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                    <h3>Secure Module Access</h3>
+                </div>
+            </div>
             <h2>Access Offerings Module</h2>
             <p>Please login to access offerings management.</p>
             <div id="offeringsLoginForm">
@@ -1027,6 +1119,13 @@
     <div id="thesAccessModal" class="modal">
         <div class="modal-content">
             <span class="close close-modal">&times;</span>
+            <div class="modal-brand">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="modal-brand-logo">
+                <div>
+                    <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                    <h3>Secure Module Access</h3>
+                </div>
+            </div>
             <h2>Access Tithes Module</h2>
             <p>Please login to access tithes management.</p>
             <div id="thesLoginForm">
@@ -1049,6 +1148,13 @@
     <div id="reportsAccessModal" class="modal">
         <div class="modal-content">
             <span class="close close-modal">&times;</span>
+            <div class="modal-brand">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="modal-brand-logo">
+                <div>
+                    <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                    <h3>Secure Module Access</h3>
+                </div>
+            </div>
             <h2>Access Reports Module</h2>
             <p>Please login to access reports and analytics.</p>
             <div id="reportsLoginForm">
@@ -1071,6 +1177,13 @@
     <div id="announcementsAccessModal" class="modal">
         <div class="modal-content">
             <span class="close close-modal">&times;</span>
+            <div class="modal-brand">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="modal-brand-logo">
+                <div>
+                    <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                    <h3>Secure Module Access</h3>
+                </div>
+            </div>
             <h2>Access Announcements Module</h2>
             <p>Please login to manage announcements.</p>
             <div id="announcementsLoginForm">
@@ -1093,6 +1206,13 @@
     <div id="settingsAccessModal" class="modal">
         <div class="modal-content">
             <span class="close close-modal">&times;</span>
+            <div class="modal-brand">
+                <img src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="AFMIZ Mercy City Assembly Logo" class="modal-brand-logo">
+                <div>
+                    <p class="eyebrow">AFMIZ Mercy City Assembly</p>
+                    <h3>Secure Module Access</h3>
+                </div>
+            </div>
             <h2>Access Settings</h2>
             <p>Please login to access system settings.</p>
             <div id="settingsLoginForm">

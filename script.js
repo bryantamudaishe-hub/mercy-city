@@ -5,12 +5,62 @@
     'dQw4w9WgXcQ',
 ];
 
+const highlightVideos = [
+    'SnapTube Video/A woman of Excellence is an all weather Christian_(720P_HD).mp4',
+    'SnapTube Video/AFM in Zimbabwe Mercy City Assembly - Pure joy. Real energy._Saturday ➡️ Sunday_ we stayed lifted.__With Chaplain Phiri on the Word and Dr Dorcas Mo(720P.mp4',
+    'SnapTube Video/Hakuna zita seraJeso 🙌🏾🙌🏾 Iye anoenda nesu kwese tinoenda(720P_HD).mp4',
+    'SnapTube Video/Ndiani Pane Zamba(720P_HD).mp4',
+    'SnapTube Video/Ndiani Pane Zamba(720P_HD)_1.mp4',
+    'SnapTube Video/Tave pano Baba 🙌(720P_HD).mp4'
+];
+
+const highlightPhotos = [
+    'facebook/1779178022686.jpg',
+    'facebook/1779178063019.jpg',
+    'facebook/1779178066965.jpg',
+    'facebook/1779178080109.jpg',
+    'facebook/1779178085449.jpg',
+    'facebook/1779178094414.jpg',
+    'facebook/1779178119847.jpg',
+    'facebook/1779178122949.jpg',
+    'facebook/1779178126752.jpg',
+    'facebook/1779178208091.jpg'
+];
+
 function loadRandomSermon() {
     const randomVideo = sermonVideos[Math.floor(Math.random() * sermonVideos.length)];
     const sermonFrame = document.getElementById('sermonFrame');
     if (sermonFrame) {
         sermonFrame.src = `https://www.youtube.com/embed/${randomVideo}?rel=0&autoplay=0`;
     }
+}
+
+function loadRandomHighlight() {
+    const highlightVideo = document.getElementById('highlightVideo');
+    if (!highlightVideo || !highlightVideos.length) return;
+    const randomFile = highlightVideos[Math.floor(Math.random() * highlightVideos.length)];
+    highlightVideo.src = encodeURI(randomFile);
+    highlightVideo.load();
+    highlightVideo.play().catch(() => {});
+}
+
+function randomHighlightPhoto() {
+    const highlightPhoto = document.getElementById('highlightPhoto');
+    if (!highlightPhoto || !highlightPhotos.length) return;
+    const randomIndex = Math.floor(Math.random() * highlightPhotos.length);
+    highlightPhoto.src = highlightPhotos[randomIndex];
+}
+
+function startHighlightPhotoRotation() {
+    randomHighlightPhoto();
+    setInterval(randomHighlightPhoto, 4500);
+}
+
+function setupHighlightRotation() {
+    const highlightVideo = document.getElementById('highlightVideo');
+    if (!highlightVideo) return;
+    highlightVideo.addEventListener('ended', loadRandomHighlight);
+    loadRandomHighlight();
 }
 
 const testimonials = [
@@ -148,6 +198,8 @@ function hideLoading() {
 
 window.addEventListener('DOMContentLoaded', () => {
     loadRandomSermon();
+    setupHighlightRotation();
+    startHighlightPhotoRotation();
     initRevealObserver();
     initNavigation();
     initJoinButton();

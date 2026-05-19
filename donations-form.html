@@ -10,208 +10,742 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .donation-container {
-            max-width: 600px;
-            margin: 60px auto;
-            padding: 40px;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        :root {
+            --page-bg: #f7f5ef;
+            --card-bg: #ffffff;
+            --primary: #20512f;
+            --primary-strong: #0b3e24;
+            --accent: #c89c3a;
+            --accent-soft: rgba(200, 156, 58, 0.12);
+            --text: #1c2d22;
+            --text-soft: #5d6a5e;
+            --border: #e6e2da;
+            --shadow: 0 24px 60px rgba(9, 22, 12, 0.08);
         }
-        .donation-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-        .donation-header h1 {
-            font-size: 2rem;
-            margin: 20px 0;
+
+        body {
+            background: var(--page-bg);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
             color: var(--text);
         }
+
+        .donation-container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 32px;
+            background: var(--card-bg);
+            border-radius: 28px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(33, 44, 34, 0.08);
+        }
+
+        .donation-header {
+            display: grid;
+            gap: 18px;
+            text-align: center;
+            margin-bottom: 32px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(33, 44, 34, 0.08);
+        }
+
+        .donation-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            justify-content: center;
+        }
+
+        .church-logo {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            object-fit: cover;
+            border: 2px solid var(--accent);
+            padding: 8px;
+            background: white;
+        }
+
+        .donation-header h1 {
+            font-size: clamp(2.2rem, 2.8vw, 3rem);
+            margin: 0;
+            letter-spacing: -0.04em;
+        }
+
         .donation-header p {
             color: var(--text-soft);
-            font-size: 1.1rem;
+            font-size: 1rem;
+            margin: 0;
         }
+
+        .donation-header .verse {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1rem;
+            max-width: 640px;
+            margin: 0 auto;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 24px;
+        }
+
+        .panel {
+            padding: 24px;
+            background: rgba(254, 252, 248, 0.95);
+            border-radius: 24px;
+            border: 1px solid rgba(33, 44, 34, 0.08);
+        }
+
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            font-size: 1.15rem;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title .badge {
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(200, 156, 58, 0.12);
+            color: #84611f;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+
         .form-group {
-            margin-bottom: 24px;
+            margin-bottom: 18px;
         }
+
         .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
             color: var(--text);
         }
+
         .form-group input,
         .form-group select,
         .form-group textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 2px solid var(--border);
-            border-radius: 12px;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
             font-size: 1rem;
             font-family: inherit;
-            transition: border-color 0.3s;
+            color: var(--text);
+            transition: border-color 0.25s, box-shadow 0.25s;
+            background: white;
         }
+
         .form-group input:focus,
         .form-group select:focus,
         .form-group textarea:focus {
             outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(74, 121, 255, 0.1);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 6px rgba(200, 156, 58, 0.12);
         }
+
         .form-row {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 20px;
         }
-        .donation-type {
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .option-grid,
+        .method-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
             gap: 12px;
-            margin-bottom: 24px;
         }
-        .donation-type input[type="radio"] {
-            display: none;
-        }
-        .donation-type label {
+
+        .option-card,
+        .method-card {
             position: relative;
-            padding: 16px;
-            text-align: center;
-            border: 2px solid var(--border);
-            border-radius: 12px;
+            padding: 18px 16px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: white;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 0;
+            transition: transform 0.25s, border-color 0.25s, box-shadow 0.25s;
+            display: grid;
+            gap: 10px;
         }
-        .donation-type input[type="radio"]:checked + label {
+
+        .option-card:hover,
+        .method-card:hover {
+            transform: translateY(-2px);
             border-color: var(--accent);
-            background: rgba(245, 178, 59, 0.1);
-            color: var(--accent);
-            font-weight: 600;
+            box-shadow: 0 14px 32px rgba(40, 55, 27, 0.08);
         }
+
+        .option-card input,
+        .method-card input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .option-card label,
+        .method-card label {
+            display: grid;
+            gap: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .option-card .icon,
+        .method-card .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: rgba(245, 178, 59, 0.12);
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        .option-card input:checked + label,
+        .method-card input:checked + label {
+            border-color: var(--accent);
+            background: rgba(245, 178, 59, 0.12);
+            color: var(--accent);
+        }
+
+        .small-note {
+            font-size: 0.95rem;
+            color: var(--text-soft);
+            line-height: 1.6;
+            margin-top: 8px;
+        }
+
+        .trust-note {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 18px 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(32, 81, 47, 0.1);
+            background: rgba(32, 81, 47, 0.05);
+            color: var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .trust-note i {
+            font-size: 1.1rem;
+            color: var(--accent);
+        }
+
+        .bank-details {
+            display: none;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 20px;
+            margin-top: 16px;
+        }
+
+        .receipt-privacy {
+            display: grid;
+            gap: 12px;
+        }
+
+        .small-checkbox {
+            display: flex;
+            gap: 14px;
+            align-items: flex-start;
+            margin-bottom: 14px;
+        }
+
+        .small-checkbox input {
+            margin-top: 4px;
+        }
+
         .btn-submit {
             width: 100%;
-            padding: 16px;
+            padding: 18px;
+            border: none;
+            border-radius: 16px;
             background: linear-gradient(135deg, var(--primary), var(--primary-strong));
             color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.25s, box-shadow 0.25s;
         }
+
         .btn-submit:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(74, 121, 255, 0.3);
+            box-shadow: 0 16px 32px rgba(32, 81, 47, 0.16);
         }
-        .message {
-            padding: 16px;
-            margin-bottom: 20px;
-            border-radius: 12px;
+
+        .confirmation-panel {
             display: none;
+            padding: 28px;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(33, 44, 34, 0.08);
         }
-        .message.success {
-            background: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 26, 16, 0.7);
+            backdrop-filter: blur(4px);
+            z-index: 20;
+            padding: 40px 24px;
+            overflow-y: auto;
         }
-        .message.error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .back-link {
+
+        .success-panel {
+            max-width: 520px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 28px;
+            padding: 34px 28px;
+            box-shadow: 0 32px 70px rgba(16, 33, 20, 0.14);
             text-align: center;
-            margin-top: 20px;
         }
-        .back-link a {
-            color: var(--primary);
-            text-decoration: none;
-            font-weight: 600;
+
+        .success-panel .icon-wrap {
+            width: 84px;
+            height: 84px;
+            margin: 0 auto 18px;
+            display: grid;
+            place-items: center;
+            border-radius: 24px;
+            background: rgba(32, 81, 47, 0.08);
+            color: var(--accent);
+            font-size: 2rem;
         }
-        .back-link a:hover {
-            text-decoration: underline;
+
+        .success-panel h3 {
+            margin: 0 0 10px;
+            font-size: 1.6rem;
+            color: var(--primary-strong);
+        }
+
+        .success-panel p {
+            margin: 0 0 22px;
+            color: var(--text-soft);
+            line-height: 1.8;
+        }
+
+        .success-summary {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+            display: grid;
+            gap: 12px;
+            text-align: left;
+        }
+
+        .success-summary li {
+            padding: 14px 16px;
+            border-radius: 18px;
+            background: #f8f7f2;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--text-soft);
+        }
+
+        .success-summary strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .success-action {
+            display: grid;
+            gap: 14px;
+        }
+
+        .success-action .btn-primary {
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-strong));
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .success-action .btn-secondary {
+            padding: 16px;
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            background: white;
+            color: var(--accent);
+            cursor: pointer;
+        }
+
+        .summary-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 24px;
+            display: grid;
+            gap: 14px;
+        }
+
+        .summary-list li {
+            background: #f7f5ef;
+            border-radius: 16px;
+            padding: 16px 18px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            color: var(--text-soft);
+        }
+
+        .summary-list strong {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .confirmation-actions {
+            display: grid;
+            gap: 14px;
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--accent);
+            border-radius: 16px;
+            background: white;
+            color: var(--accent);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 28px;
+            color: var(--text-soft);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 760px) {
+            .form-row,
+            .bank-details {
+                grid-template-columns: 1fr;
+            }
+
+            .donation-header {
+                text-align: left;
+            }
+
+            .donation-container {
+                padding: 24px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="donation-container">
         <div class="donation-header">
-            <h1><i class="fas fa-heart" style="color: #f5b23b;"></i></h1>
-            <h1>Give Online</h1>
-            <p>Support our ministries and the work God is doing through Mercy City Assembly</p>
+            <div class="donation-logo">
+                <img class="church-logo" src="501677961_18089998102718163_546494354468193759_n.PNG.jpg" alt="Mercy City Assembly Logo">
+                <div>
+                    <p class="eyebrow" style="text-transform: uppercase; letter-spacing: 0.2em; font-size: 0.85rem; color: var(--accent);">Mercy City Assembly</p>
+                    <h1>Mercy City Assembly Online Giving</h1>
+                </div>
+            </div>
+            <p class="verse">“Each one should give what they have decided in their heart…” — 2 Corinthians 9:7</p>
         </div>
 
-        <div id="message" class="message"></div>
+        <div id="formMessage" class="message"></div>
 
         <form id="donationForm">
-            <div class="form-group">
-                <label>Full Name *</label>
-                <input type="text" id="fullName" name="fullName" required>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                <div class="form-group">
-                    <label>Phone Number *</label>
-                    <input type="tel" id="phone" name="phone" required>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label>Donation Type *</label>
-                <div class="donation-type">
-                    <div>
-                        <input type="radio" id="tithes" name="donationType" value="Tithes" checked>
-                        <label for="tithes">Tithes</label>
+            <div class="form-grid">
+                <div class="panel">
+                    <div class="section-title">
+                        <h2>Donor Information</h2>
+                        <span class="badge">Secure Form</span>
                     </div>
-                    <div>
-                        <input type="radio" id="offering" name="donationType" value="Offering">
-                        <label for="offering">Offering</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
                     </div>
-                    <div>
-                        <input type="radio" id="missions" name="donationType" value="Missions">
-                        <label for="missions">Missions</label>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="donationCategory">Donation Category *</label>
+                            <select id="donationCategory" name="donationCategory" required>
+                                <option value="">Select category</option>
+                                <option value="Tithe">Tithe</option>
+                                <option value="Offering">Offering</option>
+                                <option value="Missions">Missions</option>
+                                <option value="Building Fund">Building Fund</option>
+                                <option value="Welfare">Welfare</option>
+                                <option value="Thanksgiving">Thanksgiving</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="section-title">
+                        <h2>Donation Details</h2>
+                        <span class="badge">Professional</span>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="amount">Amount *</label>
+                            <input type="number" id="amount" name="amount" min="1" step="0.01" placeholder="Enter amount" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="currency">Currency *</label>
+                            <select id="currency" name="currency" required>
+                                <option value="ZWL">ZWL</option>
+                                <option value="USD">USD</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Giving Frequency *</label>
+                        <div class="option-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr));">
+                            <div class="option-card">
+                                <input type="radio" id="frequencyOneTime" name="frequency" value="One-time" checked>
+                                <label for="frequencyOneTime">
+                                    <span class="icon"><i class="fas fa-bolt"></i></span>
+                                    <span>One-time</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="frequencyWeekly" name="frequency" value="Weekly">
+                                <label for="frequencyWeekly">
+                                    <span class="icon"><i class="fas fa-calendar-week"></i></span>
+                                    <span>Weekly</span>
+                                </label>
+                            </div>
+                            <div class="option-card">
+                                <input type="radio" id="frequencyMonthly" name="frequency" value="Monthly">
+                                <label for="frequencyMonthly">
+                                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
+                                    <span>Monthly</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Donation Privacy</label>
+                        <div class="receipt-privacy">
+                            <label class="small-checkbox"><input type="radio" name="privacy" value="Give with my name" checked> Give with my name</label>
+                            <label class="small-checkbox"><input type="radio" name="privacy" value="Give anonymously"> Give anonymously</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="section-title">
+                        <h2>Payment Method</h2>
+                        <span class="badge">Safe Options</span>
+                    </div>
+                    <div class="trust-note">
+                        <i class="fas fa-lock"></i>
+                        <div>
+                            <strong>Secure Giving</strong><br>
+                            Your donation details are protected and processed securely. We do not store your card or mobile money PIN.
+                        </div>
+                    </div>
+                    <div class="small-note" style="margin-top: 12px;">
+                        <strong>EcoCash Payment</strong> – A secure EcoCash confirmation request will be sent to your phone. Enter your PIN only on the official EcoCash prompt. Mercy City Assembly will never ask for or store your EcoCash PIN.
+                    </div>
+                    <div id="ecoCashMerchantCodeNotice" class="small-note" style="margin-top: 12px; color: #20512f; font-weight: 700;">
+                        Use the merchant code on EcoCash: <span id="ecoCashMerchantCodeText" style="font-family: monospace;">*151*1*1*+263780333703*AMOUNT#</span>
+                    </div>
+                    <div class="method-grid" style="grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 12px;">
+                        <div class="method-card">
+                            <input type="radio" id="paymentEcoCash" name="paymentMethod" value="EcoCash" checked>
+                            <label for="paymentEcoCash">
+                                <span class="icon"><i class="fas fa-mobile-alt"></i></span>
+                                <span>EcoCash</span>
+                            </label>
+                        </div>
+                        <div class="method-card">
+                            <input type="radio" id="paymentOneMoney" name="paymentMethod" value="OneMoney">
+                            <label for="paymentOneMoney">
+                                <span class="icon"><i class="fas fa-money-bill-wave"></i></span>
+                                <span>OneMoney</span>
+                            </label>
+                        </div>
+                        <div class="method-card">
+                            <input type="radio" id="paymentInnbucks" name="paymentMethod" value="Innbucks">
+                            <label for="paymentInnbucks">
+                                <span class="icon"><i class="fas fa-wallet"></i></span>
+                                <span>Innbucks</span>
+                            </label>
+                        </div>
+                        <div class="method-card">
+                            <input type="radio" id="paymentBankTransfer" name="paymentMethod" value="Bank Transfer">
+                            <label for="paymentBankTransfer">
+                                <span class="icon"><i class="fas fa-university"></i></span>
+                                <span>Bank Transfer</span>
+                            </label>
+                        </div>
+                        <div class="method-card">
+                            <input type="radio" id="paymentCard" name="paymentMethod" value="Visa/Mastercard">
+                            <label for="paymentCard">
+                                <span class="icon"><i class="fas fa-credit-card"></i></span>
+                                <span>Visa / Mastercard</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="bankDetailsSection" class="bank-details">
+                        <div class="form-group">
+                            <label for="bankName">Bank name</label>
+                            <input type="text" id="bankName" name="bankName" placeholder="CBZ">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountName">Account name</label>
+                            <input type="text" id="accountName" name="accountName" placeholder="Mercy City Assembly">
+                        </div>
+                        <div class="form-group">
+                            <label for="accountNumber">Account number</label>
+                            <input type="text" id="accountNumber" name="accountNumber" placeholder="1234567890">
+                        </div>
+                        <div class="form-group">
+                            <label for="branchName">Branch</label>
+                            <input type="text" id="branchName" name="branchName" placeholder="Mutare Branch">
+                        </div>
+                        <div class="form-group full-width">
+                            <p class="small-note">Reference format: <strong>Tithe - Your Name</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="section-title">
+                        <h2>Receipt & Confirmation</h2>
+                        <span class="badge">Member Friendly</span>
+                    </div>
+                    <div class="form-group">
+                        <label>Would you like a receipt?</label>
+                        <div class="receipt-privacy">
+                            <label class="small-checkbox"><input type="radio" name="receipt" value="Email" checked> Yes, send by email</label>
+                            <label class="small-checkbox"><input type="radio" name="receipt" value="WhatsApp/SMS"> Yes, send by WhatsApp/SMS</label>
+                            <label class="small-checkbox"><input type="radio" name="receipt" value="No receipt"> No receipt needed</label>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="donorNote">Message or Prayer Request (Optional)</label>
+                        <textarea id="donorNote" name="donorNote" rows="4" placeholder="Write a prayer request or note..."></textarea>
+                    </div>
+                    <div class="form-group small-checkbox">
+                        <input type="checkbox" id="confirmInfo" name="confirmInfo" required>
+                        <label for="confirmInfo">I confirm that the information provided is correct.</label>
+                    </div>
+                    <div class="form-group small-checkbox">
+                        <input type="checkbox" id="agreePolicy" name="agreePolicy" required>
+                        <label for="agreePolicy">I agree to the church giving policy and privacy statement.</label>
                     </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label>Amount (ZWL) *</label>
-                <input type="number" id="amount" name="amount" min="1" step="0.01" placeholder="Enter amount" required>
-            </div>
-
-            <div class="form-group">
-                <label>Payment Method *</label>
-                <select id="paymentMethod" name="paymentMethod" required>
-                    <option value="">Select payment method</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Mobile Money">Mobile Money</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Cheque">Cheque</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label>Message/Prayer Request (Optional)</label>
-                <textarea id="message" name="message" rows="4" placeholder="Share your prayer request or message..."></textarea>
-            </div>
-
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-check-circle"></i> Submit Donation
-            </button>
+            <button type="submit" class="btn-submit">Continue to Secure Payment</button>
         </form>
 
-        <div class="back-link">
-            <a href="index.html#donate">← Back to Home</a>
+        <div id="confirmationPanel" class="confirmation-panel">
+            <div class="section-title">
+                <h2>Confirm Your Donation</h2>
+                <span class="badge">Review</span>
+            </div>
+            <ul class="summary-list">
+                <li><span>Name:</span> <strong id="summaryName"></strong></li>
+                <li><span>Donation Type:</span> <strong id="summaryCategory"></strong></li>
+                <li><span>Amount:</span> <strong id="summaryAmount"></strong></li>
+                <li><span>Frequency:</span> <strong id="summaryFrequency"></strong></li>
+                <li><span>Payment Method:</span> <strong id="summaryMethod"></strong></li>
+                <li><span>Receipt Preference:</span> <strong id="summaryReceipt"></strong></li>
+                <li><span>Privacy:</span> <strong id="summaryPrivacy"></strong></li>
+            </ul>
+            <div id="confirmBankDetails" style="display:none; margin-top:12px;">
+                <h4 style="margin:8px 0 6px;">Bank Transfer Details</h4>
+                <ul style="list-style:none; padding:0; margin:0; display:grid; gap:8px;">
+                    <li><strong>Bank:</strong> <span id="confirmBankName">CBZ</span></li>
+                    <li><strong>Account name:</strong> <span id="confirmAccountName">Mercy City Assembly</span></li>
+                    <li><strong>Account number:</strong> <span id="confirmAccountNumber">0000000000</span></li>
+                    <li><strong>Branch:</strong> <span id="confirmBranchName">Mutare Branch</span></li>
+                    <li style="color:var(--text-soft);">Reference format: <strong>Tithe - Your Name</strong></li>
+                </ul>
+            </div>
+            <div class="confirmation-actions">
+                <button id="confirmDonation" class="btn-submit">Give Securely</button>
+                <button id="editDonation" type="button" class="btn-secondary">Back to Edit</button>
+            </div>
         </div>
+
+        <div id="successOverlay" class="success-overlay" role="dialog" aria-modal="true">
+            <div class="success-panel">
+                <div class="icon-wrap">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Donation Confirmed</h3>
+                <p>Your gift has been recorded. Please follow your chosen payment method details below to complete the donation securely.</p>
+                <ul class="success-summary">
+                    <li><span>Donor</span><strong id="successName"></strong></li>
+                    <li><span>Amount</span><strong id="successAmount"></strong></li>
+                    <li><span>Payment Method</span><strong id="successMethod"></strong></li>
+                    <li><span>Receipt</span><strong id="successReceipt"></strong></li>
+                    <li><span>Transaction Ref</span><strong id="successRef"></strong></li>
+                </ul>
+                <div id="successBankInstructions" style="display:none; text-align:left; margin-top:12px;">
+                    <h4 style="margin:8px 0 6px;">Bank Transfer Instructions</h4>
+                    <ul style="list-style:none; padding:0; margin:0; gap:8px; display:grid;">
+                        <li><strong>Bank:</strong> <span id="successBankName">[Bank Name]</span></li>
+                        <li><strong>Account name:</strong> <span id="successAccountName">Mercy City Assembly</span></li>
+                        <li><strong>Account number:</strong> <span id="successAccountNumber">[Account Number]</span></li>
+                        <li><strong>Branch:</strong> <span id="successBranchName">[Branch]</span></li>
+                        <li style="margin-top:8px; color:var(--text-soft);">Reference: <strong id="successRefNote">Tithe - Your Name</strong></li>
+                    </ul>
+                </div>
+                <div id="successEcoCashInstructions" style="display:none; text-align:left; margin-top:12px; padding:16px; border-radius:18px; background:#f7f5ef; color:#20512f;">
+                    <h4 style="margin:8px 0 6px;">EcoCash Merchant Code</h4>
+                    <p id="successEcoCashMerchantText" style="margin:0; font-family: monospace; font-size: 1rem;"><strong>*151*1*1*+263780333703*AMOUNT#</strong></p>
+                </div>
+                <div class="success-action">
+                    <button id="returnHome" class="btn-primary">Return to Website</button>
+                    <button id="closeOverlay" type="button" class="btn-secondary">Continue Editing</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-note">Powered by Mercy City Assembly Giving</div>
     </div>
 
     <script>
         const DONATIONS_KEY = 'churchDonations';
+        const donationForm = document.getElementById('donationForm');
+        const confirmationPanel = document.getElementById('confirmationPanel');
+        const formMessage = document.getElementById('formMessage');
+        const bankDetailsSection = document.getElementById('bankDetailsSection');
+        const confirmDonationBtn = document.getElementById('confirmDonation');
+        const editDonationBtn = document.getElementById('editDonation');
 
         function loadDonations() {
             const stored = localStorage.getItem(DONATIONS_KEY);
@@ -229,38 +763,332 @@
         }
 
         function showMessage(text, type = 'success') {
-            const msgEl = document.getElementById('message');
-            msgEl.textContent = text;
-            msgEl.className = `message ${type}`;
-            msgEl.style.display = 'block';
-            
-            if (type === 'success') {
-                setTimeout(() => {
-                    window.location.href = 'index.html#donate';
-                }, 2000);
+            formMessage.textContent = text;
+            formMessage.className = `message ${type}`;
+            formMessage.style.display = 'block';
+        }
+
+        function hideMessage() {
+            formMessage.style.display = 'none';
+        }
+
+        function getSelectedValue(name) {
+            const input = document.querySelector(`input[name="${name}"]:checked`);
+            return input ? input.value : '';
+        }
+
+        async function fetchPaymentSettings() {
+            try {
+                const res = await fetch('/api/public/payment-settings');
+                if (!res.ok) return;
+                const json = await res.json();
+                const s = json.settings || {};
+                const bankNameEl = document.getElementById('bankName');
+                const accountNameEl = document.getElementById('accountName');
+                const accountNumberEl = document.getElementById('accountNumber');
+                const branchNameEl = document.getElementById('branchName');
+
+                if (bankNameEl) bankNameEl.placeholder = s.bankName || 'CBZ';
+                if (accountNameEl) accountNameEl.placeholder = s.accountName || 'Mercy City Assembly';
+                if (accountNumberEl) accountNumberEl.placeholder = s.accountNumber || '0000000000';
+                if (branchNameEl) branchNameEl.placeholder = s.branchName || 'Mutare Branch';
+
+                // populate confirmation/success defaults
+                const confirmBankName = document.getElementById('confirmBankName');
+                const confirmAccountName = document.getElementById('confirmAccountName');
+                const confirmAccountNumber = document.getElementById('confirmAccountNumber');
+                const confirmBranchName = document.getElementById('confirmBranchName');
+                const successBankName = document.getElementById('successBankName');
+                const successAccountName = document.getElementById('successAccountName');
+                const successAccountNumber = document.getElementById('successAccountNumber');
+                const successBranchName = document.getElementById('successBranchName');
+
+                if (confirmBankName) confirmBankName.textContent = s.bankName || 'CBZ';
+                if (confirmAccountName) confirmAccountName.textContent = s.accountName || 'Mercy City Assembly';
+                if (confirmAccountNumber) confirmAccountNumber.textContent = s.accountNumber || '0000000000';
+                if (confirmBranchName) confirmBranchName.textContent = s.branchName || 'Mutare Branch';
+
+                if (successBankName) successBankName.textContent = s.bankName || 'CBZ';
+                if (successAccountName) successAccountName.textContent = s.accountName || 'Mercy City Assembly';
+                if (successAccountNumber) successAccountNumber.textContent = s.accountNumber || '0000000000';
+                if (successBranchName) successBranchName.textContent = s.branchName || 'Mutare Branch';
+
+                const merchantText = document.getElementById('ecoCashMerchantCodeText');
+                const successMerchantText = document.getElementById('successEcoCashMerchantText');
+                const displayText = s.ecoCashMerchantDisplay || s.ecoCashMerchantCode || '*151*1*1*+263780333703*AMOUNT#';
+                if (merchantText) merchantText.textContent = displayText;
+                if (successMerchantText) successMerchantText.textContent = displayText;
+            } catch (err) {
+                console.warn('Failed to load payment settings', err);
             }
         }
 
-        document.getElementById('donationForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        function handlePaymentMethodChange() {
+            const method = getSelectedValue('paymentMethod');
+            bankDetailsSection.style.display = method === 'Bank Transfer' ? 'grid' : 'none';
+        }
 
-            const donation = {
+        function formatAmount(amount, currency) {
+            if (!amount || isNaN(amount)) return '';
+            const formatted = Number(amount).toLocaleString(undefined, {
+                minimumFractionDigits: amount % 1 ? 2 : 0,
+                maximumFractionDigits: 2
+            });
+            return `${currency} ${formatted}`;
+        }
+
+        function generateTransactionRef() {
+            return `MCA-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+        }
+
+        function updateConfirmButtonLabel() {
+            const paymentMethod = getSelectedValue('paymentMethod');
+            if (paymentMethod === 'EcoCash') {
+                confirmDonationBtn.textContent = 'Send EcoCash Payment Request';
+            } else {
+                confirmDonationBtn.textContent = 'Give Securely';
+            }
+        }
+
+        function validateDonationForm() {
+            hideMessage();
+
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const donationCategory = document.getElementById('donationCategory').value;
+            const amount = parseFloat(document.getElementById('amount').value);
+            const currency = document.getElementById('currency').value;
+            const paymentMethod = getSelectedValue('paymentMethod');
+            const confirmInfo = document.getElementById('confirmInfo').checked;
+            const agreePolicy = document.getElementById('agreePolicy').checked;
+
+            if (!fullName || !email || !phone || !donationCategory || !amount || !currency || !paymentMethod) {
+                showMessage('Please complete all required fields before continuing.', 'error');
+                return false;
+            }
+
+            if (!confirmInfo || !agreePolicy) {
+                showMessage('Please confirm your details and accept the giving policy.', 'error');
+                return false;
+            }
+
+            if (paymentMethod === 'Bank Transfer') {
+                const bankName = document.getElementById('bankName').value.trim();
+                const accountName = document.getElementById('accountName').value.trim();
+                const accountNumber = document.getElementById('accountNumber').value.trim();
+                const branchName = document.getElementById('branchName').value.trim();
+
+                if (!bankName || !accountName || !accountNumber || !branchName) {
+                    showMessage('Please provide the bank transfer details.', 'error');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        function getFormData() {
+            return {
                 fullName: document.getElementById('fullName').value.trim(),
                 email: document.getElementById('email').value.trim(),
                 phone: document.getElementById('phone').value.trim(),
-                donationType: document.querySelector('input[name="donationType"]:checked').value,
+                donationCategory: document.getElementById('donationCategory').value,
                 amount: parseFloat(document.getElementById('amount').value),
-                paymentMethod: document.getElementById('paymentMethod').value,
-                message: document.getElementById('message').value.trim()
+                currency: document.getElementById('currency').value,
+                frequency: getSelectedValue('frequency'),
+                paymentMethod: getSelectedValue('paymentMethod'),
+                receiptPreference: getSelectedValue('receipt'),
+                privacy: getSelectedValue('privacy'),
+                donorNote: document.getElementById('donorNote').value.trim(),
+                bankName: document.getElementById('bankName').value.trim(),
+                accountName: document.getElementById('accountName').value.trim(),
+                accountNumber: document.getElementById('accountNumber').value.trim(),
+                branchName: document.getElementById('branchName').value.trim()
             };
+        }
 
-            if (!donation.fullName || !donation.email || !donation.phone || !donation.amount || !donation.paymentMethod) {
-                showMessage('Please fill in all required fields.', 'error');
-                return;
+        function updateConfirmationSummary(data) {
+            document.getElementById('summaryName').textContent = data.fullName;
+            document.getElementById('summaryCategory').textContent = data.donationCategory;
+            document.getElementById('summaryAmount').textContent = formatAmount(data.amount, data.currency);
+            document.getElementById('summaryFrequency').textContent = data.frequency;
+            document.getElementById('summaryMethod').textContent = data.paymentMethod;
+            document.getElementById('summaryReceipt').textContent = data.receiptPreference;
+            document.getElementById('summaryPrivacy').textContent = data.privacy;
+        }
+
+        function showConfirmationPanel(data) {
+            donationForm.style.display = 'none';
+            confirmationPanel.style.display = 'block';
+            updateConfirmationSummary(data);
+            // If bank transfer selected, show bank details inside confirmation panel as well
+            const confirmBank = document.getElementById('confirmBankDetails');
+            if (data.paymentMethod === 'Bank Transfer' && confirmBank) {
+                confirmBank.style.display = 'block';
+                document.getElementById('confirmBankName').textContent = data.bankName || 'CBZ';
+                document.getElementById('confirmAccountName').textContent = data.accountName || 'Mercy City Assembly';
+                document.getElementById('confirmAccountNumber').textContent = data.accountNumber || '0000000000';
+                document.getElementById('confirmBranchName').textContent = data.branchName || 'Mutare Branch';
+            }
+        }
+
+        function showEditPanel() {
+            confirmationPanel.style.display = 'none';
+            donationForm.style.display = 'block';
+        }
+
+        donationForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (!validateDonationForm()) return;
+            const donationData = getFormData();
+            showConfirmationPanel(donationData);
+        });
+
+        const successOverlay = document.getElementById('successOverlay');
+        const successName = document.getElementById('successName');
+        const successAmount = document.getElementById('successAmount');
+        const successMethod = document.getElementById('successMethod');
+        const successReceipt = document.getElementById('successReceipt');
+        const successEcoCashMerchantText = document.getElementById('successEcoCashMerchantText');
+        const merchantText = document.getElementById('ecoCashMerchantCodeText');
+
+        function showSuccessOverlay(data) {
+            successName.textContent = data.fullName;
+            successAmount.textContent = formatAmount(data.amount, data.currency);
+            successMethod.textContent = data.paymentMethod;
+            successReceipt.textContent = data.receiptPreference;
+            document.getElementById('successRef').textContent = data.transactionRef;
+            const bankInstructions = document.getElementById('successBankInstructions');
+            const ecoCashInstructions = document.getElementById('successEcoCashInstructions');
+
+            if (data.paymentMethod === 'Bank Transfer') {
+                document.getElementById('successBankName').textContent = data.bankName || 'CBZ';
+                document.getElementById('successAccountName').textContent = data.accountName || 'Mercy City Assembly';
+                document.getElementById('successAccountNumber').textContent = data.accountNumber || '0000000000';
+                document.getElementById('successBranchName').textContent = data.branchName || 'Mutare Branch';
+                document.getElementById('successRefNote').textContent = `Reference: ${data.transactionRef} - ${data.fullName.split(' ')[0] || ''}`;
+                bankInstructions.style.display = 'block';
+                ecoCashInstructions.style.display = 'none';
+            } else if (data.paymentMethod === 'EcoCash') {
+                bankInstructions.style.display = 'none';
+                ecoCashInstructions.style.display = 'block';
+                if (successEcoCashMerchantText && merchantText) {
+                    successEcoCashMerchantText.textContent = merchantText.textContent || '*151*1*1*+263780333703*AMOUNT#';
+                }
+            } else {
+                bankInstructions.style.display = 'none';
+                ecoCashInstructions.style.display = 'none';
             }
 
-            saveDonation(donation);
-            showMessage('Thank you for your donation! Returning to home page...', 'success');
+            successOverlay.style.display = 'block';
+            donationForm.style.display = 'none';
+            confirmationPanel.style.display = 'none';
+        }
+
+        function hideSuccessOverlay() {
+            successOverlay.style.display = 'none';
+            donationForm.style.display = 'block';
+        }
+
+        confirmDonationBtn.addEventListener('click', async function() {
+            hideMessage();
+            const donation = getFormData();
+            // generate local ref as fallback
+            donation.transactionRef = generateTransactionRef();
+
+            // Prepare request to backend
+            try {
+                // fetch CSRF token first (cookie must be included)
+                const tokenRes = await fetch('/api/csrf-token', { credentials: 'include' });
+                let csrfToken = null;
+                if (tokenRes.ok) {
+                    const tjson = await tokenRes.json();
+                    csrfToken = tjson.csrfToken;
+                }
+
+                const headers = { 'Content-Type': 'application/json' };
+                if (csrfToken) headers['csrf-token'] = csrfToken;
+
+                const res = await fetch('/api/public/donate', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers,
+                    body: JSON.stringify({
+                        fullName: donation.fullName,
+                        email: donation.email,
+                        phone: donation.phone,
+                        donationCategory: donation.donationCategory,
+                        amount: donation.amount,
+                        currency: donation.currency,
+                        frequency: donation.frequency,
+                        paymentMethod: donation.paymentMethod,
+                        receiptPreference: donation.receiptPreference,
+                        privacy: donation.privacy,
+                        donorNote: donation.donorNote,
+                        bankName: donation.bankName,
+                        accountName: donation.accountName,
+                        accountNumber: donation.accountNumber,
+                        branchName: donation.branchName
+                    })
+                });
+
+                const json = await res.json().catch(() => ({}));
+
+                if (!res.ok) {
+                    showMessage(json.error || (json.message || 'Payment initiation failed'), 'error');
+                    return;
+                }
+
+                // Merge server response into donation object when available
+                if (json.donation) {
+                    Object.assign(donation, json.donation);
+                }
+                if (json.transactionRef) donation.transactionRef = json.transactionRef;
+                if (json.paymentStatus) donation.paymentStatus = json.paymentStatus;
+
+                // Save locally for quick access
+                saveDonation(donation);
+
+                // UX: different messages for EcoCash vs others
+                if (donation.paymentMethod === 'EcoCash') {
+                    showMessage('EcoCash payment request sent to donor phone. Please complete on your device.', 'success');
+                } else if (donation.paymentMethod === 'Bank Transfer') {
+                    showMessage('Donation created. Follow the bank transfer instructions to complete payment.', 'success');
+                } else {
+                    showMessage(json.message || 'Donation recorded. Complete the payment as instructed.', 'success');
+                }
+
+                // show success overlay with server-provided ref/status
+                showSuccessOverlay(donation);
+            } catch (err) {
+                console.error(err);
+                showMessage('Failed to initiate payment. Please try again.', 'error');
+            }
+        });
+
+        returnHomeBtn.addEventListener('click', function() {
+            window.location.href = 'index.html#donate';
+        });
+
+        closeOverlayBtn.addEventListener('click', function() {
+            hideSuccessOverlay();
+        });
+
+        editDonationBtn.addEventListener('click', function() {
+            showEditPanel();
+        });
+
+        document.querySelectorAll('input[name="paymentMethod"]').forEach(input => {
+            input.addEventListener('change', () => {
+                handlePaymentMethodChange();
+                updateConfirmButtonLabel();
+            });
+        });
+
+        fetchPaymentSettings().then(() => {
+            handlePaymentMethodChange();
+            updateConfirmButtonLabel();
         });
     </script>
 </body>
