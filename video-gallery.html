@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Video Gallery</title>
+  <link rel="stylesheet" href="styles.css">
+  <style> body { background:#f6f8fb; } .page-header{max-width:1180px;margin:2rem auto 0;padding:0 1rem;} .page-header h1{font-size:1.4rem;margin:0 0 0.35rem;} .page-header p{margin:0;color:var(--text-soft);} </style>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <h1>Videos</h1>
+      <p>Click a video to open the player. Place the video files in the "SnapTube Video" folder and push to GitHub.</p>
+    </header>
+
+    <section class="gallery-container">
+      <div id="videoGrid" class="gallery-grid"></div>
+    </section>
+
+    <div id="videoLightbox" class="video-lightbox" role="dialog" aria-hidden="true">
+      <button class="close-btn" id="closeVideoLight">Close</button>
+      <video id="lightVideo" controls playsinline></video>
+    </div>
+  </main>
+
+  <script>
+    const videos = [
+      "A woman of Excellence is an all weather Christian_(720P_HD).mp4",
+      "AFM in Zimbabwe Mercy City Assembly - Pure joy. Real energy._Saturday ➡️ Sunday_ we stayed lifted.__With Chaplain Phiri on the Word and Dr Dorcas Mo(720P.mp4",
+      "Hakuna zita seraJeso 🙌🏾🙌🏾 Iye anoenda nesu kwese tinoenda(720P_HD).mp4",
+      "Ndiani Pane Zamba(720P_HD).mp4",
+      "Ndiani Pane Zamba(720P_HD)_1.mp4",
+      "Tave pano Baba 🙌(720P_HD).mp4"
+    ];
+
+    const grid = document.getElementById('videoGrid');
+    videos.forEach(name => {
+      const wrap = document.createElement('div');
+      wrap.className = 'gallery-item video-item';
+      const vid = document.createElement('video');
+      // encode path for filenames with spaces/special chars
+      const src = encodeURI(`SnapTube Video/${name}`);
+      vid.src = src;
+      vid.preload = 'metadata';
+      vid.muted = true;
+      vid.playsInline = true;
+      vid.loop = true;
+      vid.autoplay = true;
+      vid.controls = false;
+      vid.setAttribute('muted', '');
+      vid.setAttribute('autoplay', '');
+      vid.setAttribute('loop', '');
+      vid.setAttribute('aria-label', name);
+      // click opens player (user gesture allows unmuted playback)
+      vid.addEventListener('click', () => openPlayer(src, name));
+      // hover/touch preview
+      vid.addEventListener('mouseenter', () => { vid.play().catch(() => {}); });
+      vid.addEventListener('mouseleave', () => { vid.pause(); vid.currentTime = 0; });
+      // for touch devices, start preview on touchstart briefly
+      vid.addEventListener('touchstart', () => { vid.play().catch(() => {}); }, {passive:true});
+      grid.appendChild(wrap);
+      wrap.appendChild(vid);
+    });
+
+    const lightbox = document.getElementById('videoLightbox');
+    const lightVideo = document.getElementById('lightVideo');
+    const closeBtn = document.getElementById('closeVideoLight');
+
+    function openPlayer(src, title) {
+      lightVideo.src = src;
+      lightVideo.currentTime = 0;
+      lightVideo.muted = false;
+      lightVideo.controls = true;
+      lightVideo.play().catch(() => {});
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+    function closePlayer() {
+      lightVideo.pause();
+      lightVideo.removeAttribute('src');
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+    }
+    closeBtn.addEventListener('click', closePlayer);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closePlayer(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closePlayer(); });
+  </script>
+</body>
+</html>

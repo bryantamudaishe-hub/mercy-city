@@ -260,38 +260,7 @@
                 </div>
             </div>
 
-            <div class="dashboard-charts">
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <div>
-                            <h3>Monthly Offerings</h3>
-                            <p>Giving smooths the ministry path each month.</p>
-                        </div>
-                        <button class="chart-expand" onclick="openChartModal('givingChart', 'Monthly Offerings')">View Full</button>
-                    </div>
-                    <canvas id="givingChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <div>
-                            <h3>Tithes vs Pledges</h3>
-                            <p>Compare commitments with actual covenant giving.</p>
-                        </div>
-                        <button class="chart-expand" onclick="openChartModal('compareChart', 'Tithes vs Pledges')">View Full</button>
-                    </div>
-                    <canvas id="compareChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-header">
-                        <div>
-                            <h3>Member Growth</h3>
-                            <p>Healthy growth is at the center of every season.</p>
-                        </div>
-                        <button class="chart-expand" onclick="openChartModal('memberGrowthChart', 'Member Growth')">View Full</button>
-                    </div>
-                    <canvas id="memberGrowthChart"></canvas>
-                </div>
-            </div>
+            <!-- Dashboard charts removed per request -->
 
             <div class="dashboard-panel-grid">
                 <div class="announcement-panel">
@@ -1231,14 +1200,7 @@
         </div>
     </div>
 
-    <div id="chartModal" class="chart-modal">
-        <div class="chart-modal-content">
-            <button class="close-chart" onclick="closeChartModal()">&times;</button>
-            <h3 id="chartModalTitle">Full Chart View</h3>
-            <canvas id="fullChartCanvas"></canvas>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chart modal and chart.js removed with charts -->
     <script src="admin-script.js"></script>
 </body>
 </html>

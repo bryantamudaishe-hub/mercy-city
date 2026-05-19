@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Photo Gallery</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { background: #f6f8fb; color: var(--text); }
+    .page-header { max-width:1180px; margin: 2rem auto 0; padding: 0 1rem; }
+    .page-header h1 { font-size: 1.4rem; margin: 0 0 0.35rem; }
+    .page-header p { margin: 0; color: var(--text-soft); }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="page-header">
+      <h1>Photos</h1>
+      <p>Tap any image to view full size. These are relative paths, so they work on GitHub Pages after you push the repo.</p>
+    </header>
+
+    <section class="gallery-container">
+      <div id="gallery" class="gallery-grid" aria-live="polite"></div>
+    </section>
+
+    <div id="lightbox" class="lightbox" role="dialog" aria-hidden="true">
+      <button class="close-btn" id="closeLight">Close</button>
+      <img id="lightboxImg" alt="" src="" />
+    </div>
+  </main>
+
+  <script>
+    const images = [
+      "1779178022686.jpg",
+      "1779178063019.jpg",
+      "1779178066965.jpg",
+      "1779178080109.jpg",
+      "1779178085449.jpg",
+      "1779178126752.jpg",
+      "1779178208091.jpg",
+      "1779178212768.jpg",
+      "1779178230419.jpg",
+      "1779178235985.jpg",
+      "1779178239604.jpg",
+      "1779178252253.jpg",
+      "1779178260270.jpg",
+      "1779178264321.jpg",
+      "1779178277419.jpg",
+      "1779178280014.jpg",
+      "1779178316671.jpg",
+      "1779178318735.jpg",
+      "1779178320672.jpg",
+      "1779178322950.jpg",
+      "1779178328011.jpg",
+      "1779178329908.jpg",
+      "1779178331784.jpg",
+      "1779178333794.jpg",
+      "1779178344539.jpg",
+      "1779178346563.jpg",
+      "1779178348577.jpg",
+      "1779178350478.jpg",
+      "1779178352416.jpg",
+      "1779178354381.jpg",
+      "1779178356747.jpg",
+      "1779178358698.jpg",
+      "1779178360886.jpg",
+      "1779178363059.jpg",
+      "1779178365247.jpg",
+      "1779178380214.jpg",
+      "1779178382936.jpg",
+      "1779178385100.jpg",
+      "1779178589097.jpg"
+    ];
+
+    const gallery = document.getElementById('gallery');
+    images.forEach(name => {
+      const item = document.createElement('div');
+      item.className = 'gallery-item';
+      const img = document.createElement('img');
+      img.src = `facebook/${name}`;
+      img.alt = 'Church photo';
+      img.loading = 'lazy';
+      img.className = 'responsive-img';
+      img.addEventListener('click', () => openLightbox(img.src, img.alt));
+      item.appendChild(img);
+      gallery.appendChild(item);
+    });
+
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = document.getElementById('lightboxImg');
+    const closeBtn = document.getElementById('closeLight');
+
+    function openLightbox(src, alt) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+    }
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      setTimeout(() => lightboxImg.src = '', 200);
+    }
+    closeBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+
+    // keyboard support
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>

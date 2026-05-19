@@ -399,6 +399,93 @@ button, .btn {
     line-height: 1.9;
 }
 
+/* Responsive gallery & lightbox styles */
+.gallery-container {
+    max-width: 1180px;
+    margin: 1.6rem auto 3rem;
+    padding: 0 1rem;
+}
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 14px;
+    align-items: start;
+}
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: var(--shadow-soft);
+}
+.gallery-item img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+}
+.gallery-item img:hover {
+    transform: scale(1.04);
+}
+
+@media (min-width: 900px) {
+    .gallery-item img { height: 260px; }
+}
+
+/* Lightbox */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.86);
+    z-index: 9999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease;
+}
+.lightbox.open { opacity: 1; pointer-events: auto; }
+.lightbox img { max-width: 94%; max-height: 92%; border-radius: 8px; box-shadow: 0 30px 80px rgba(0,0,0,0.6); }
+.lightbox .close-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #fff;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Utility for making images responsive elsewhere */
+.responsive-img { width: 100%; height: auto; display: block; object-fit: cover; }
+
+/* Video gallery thumbnails and lightbox player */
+.video-item video {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    border-radius: 8px;
+    transition: transform 0.28s ease;
+}
+.video-item video:hover { transform: scale(1.02); }
+
+@media (min-width: 900px) {
+    .video-item video { height: 260px; }
+}
+
+.video-lightbox {
+    position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.92); z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.18s ease;
+}
+.video-lightbox.open { opacity: 1; pointer-events: auto; }
+.video-lightbox video { max-width: 96%; max-height: 92%; border-radius: 6px; }
+.video-lightbox .close-btn { position: absolute; top: 20px; right: 20px; }
+
 .hero-actions {
     margin-top: 2.4rem;
     display: flex;
